@@ -6,33 +6,23 @@ using UnityEngine;
 
 public class BasicControl : MonoBehaviour
 {
-    [Header("Player Settings")]
-    public float baseMoveSpeed = 5f;
-    public float baseJumpForce = 7f;
-    public float playerDamage = 10f;
-    public float attackCooldown = 0.5f;
-
-    [Header("Ground Detection")]
-    public Transform groundCheck;    // Assign an empty child object here
-    public float groundCheckRadius = 0.2f;
-    public LayerMask groundLayer;
     public Transform attackPoint;
     public float attackRange = 0.5f;
     public LayerMask enemyLayer;
 
-    private Rigidbody _rb;
-    private float _currentMoveSpeed;
-    private MeshRenderer _sr;
+    private Rigidbody2D _rb;
+    private SpriteRenderer _sr;
     private bool _isDead = false;
-    private bool _isGrounded;
+
+    public GameObject fireballPrefab;   // 拖火球预制体
+    public float launchSpeed = 20f;
 
     void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody2D>();
         if (transform.childCount > 0)
-            _sr = transform.GetChild(0).GetComponent<MeshRenderer>();
+            _sr = transform.GetChild(0).GetComponent<SpriteRenderer>();
 
-        _currentMoveSpeed = baseMoveSpeed;
     }
 
     private float _nextAttackTime = 0f;
@@ -41,34 +31,31 @@ public class BasicControl : MonoBehaviour
     {
         if (_isDead) return;
 
-        CheckGround();
-
         HandleMovement();
 
-        HandleJump();
+        //HandleJump();
 
         Attack();
 
         float h = Input.GetAxis("Horizontal");
 
-        //if (h != 0 && _sr != null)
-        //{
-        //    _sr.flipX = h > 0;
-        //}
-    }
-
-    void CheckGround()
-    {
-        _isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
-    }
-
-    void HandleJump()
-    {
-        // Jump only if Space is pressed AND we are touching the ground
-        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
+        if (h != 0 && _sr != null)
         {
-            _rb.velocity = new Vector3(_rb.velocity.x, baseJumpForce, _rb.velocity.z);
+            _sr.flipX = h > 0;
         }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Launch();
+        }
+    }
+
+    void Launch()
+    {
+        // 从枪口/手发射
+        GameObject fb = Instantiate(fireballPrefab, transform.position, transform.rotation);
+        Rigidbody2D rb = fb.GetComponent<Rigidbody2D>();
+        rb.velocity = transform.right * launchSpeed;   // 2D：right 发射
+        // 3D：rb.velocity = transform.forward * launchSpeed;
     }
 
     void HandleMovement()
@@ -78,7 +65,7 @@ public class BasicControl : MonoBehaviour
             float h = Input.GetAxis("Horizontal");
 
             // 使用当前实际移动速度
-            _rb.velocity = new Vector2(h * baseMoveSpeed, _rb.velocity.y);
+            _rb.velocity = new Vector2(h * GameDataManager.Instance.moveSpeed, _rb.velocity.y);
         }
         else
         {
@@ -89,11 +76,6 @@ public class BasicControl : MonoBehaviour
     // Visualization for the Editor to see the ground check circle
     private void OnDrawGizmosSelected()
     {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-        }
         if (attackPoint != null)
         {
             Gizmos.color = Color.yellow;
@@ -117,12 +99,17 @@ public class BasicControl : MonoBehaviour
 
                     if (monster != null)
                     {
-                        monster.TakeDamage(playerDamage);
+                        monster.TakeDamage(GameDataManager.Instance.damage);
                     }
                 }
 
-                _nextAttackTime = Time.time + attackCooldown;
+                _nextAttackTime = Time.time + GameDataManager.Instance.attackCooldown;
             }
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        GameDataManager.Instance.health -= damage;
     }
 }

@@ -9,7 +9,7 @@ public class PlayerMaskManager : MonoBehaviour
         public string maskName;
         public GameObject maskVisual;
         public bool isUnlocked;
-        public Monster.FactionType faction;
+        //public Monster.FactionType faction;
     }
 
     [Header("Mask Inventory")]
@@ -17,17 +17,17 @@ public class PlayerMaskManager : MonoBehaviour
     
     private int _currentMaskIndex = -1; 
     
-    public Monster.FactionType CurrentFaction
-    {
-        get
-        {
-            if (_currentMaskIndex >= 0 && _currentMaskIndex < masks.Count)
-            {
-                return masks[_currentMaskIndex].faction;
-            }
-            return (Monster.FactionType)999; 
-        }
-    }
+    //public Monster.FactionType CurrentFaction
+    //{
+    //    get
+    //    {
+    //        if (_currentMaskIndex >= 0 && _currentMaskIndex < masks.Count)
+    //        {
+    //            return masks[_currentMaskIndex].faction;
+    //        }
+    //        return (Monster.FactionType)999; 
+    //    }
+    //}
 
     void Start()
     {

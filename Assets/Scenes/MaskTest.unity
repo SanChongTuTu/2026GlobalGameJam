@@ -450,16 +450,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 673234917}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f8bda456e1effd48a083d075c0ee253, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d4648273ec45b94baa50ccaa66f7d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   masks:
   - maskName: ExampleRedMask
-    maskVisual: {fileID: 110212348}
+    maskVisual: {fileID: 1873446810}
     isUnlocked: 0
     faction: 0
   - maskName: ExampleBlueMask
-    maskVisual: {fileID: 666910267}
+    maskVisual: {fileID: 827680363}
     isUnlocked: 0
     faction: 1
 --- !u!4 &673234919
@@ -522,7 +522,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 827680363}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e44eaf2641cc7844b4feb1dbcddddb7, type: 3}
+  m_Script: {fileID: 11500000, guid: d83945b7ccb8c804bb7af96e023fe416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maskIndexToUnlock: 1
@@ -707,7 +707,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1873446810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e44eaf2641cc7844b4feb1dbcddddb7, type: 3}
+  m_Script: {fileID: 11500000, guid: d83945b7ccb8c804bb7af96e023fe416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maskIndexToUnlock: 0
