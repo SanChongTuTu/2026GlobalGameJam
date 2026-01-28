@@ -216,12 +216,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bd79283bdba23a947962b198a8512415, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 9a01fd95c7fd6874db5397357b8c8567, type: 3}
+  m_Color: {r: 0.93710685, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.56, y: 2.56}
+  m_Size: {x: 13.34, y: 7.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5693551330011816129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9790b4c907b86543b208204f39d62d6, type: 3}
+  m_Script: {fileID: 11500000, guid: dc8376e938434164ca5e52359a3922e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: {fileID: 0}
@@ -244,8 +244,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
-  fireballPrefab: {fileID: 598950626893798766, guid: 8fd3bd210e8267040a3d20a800e5a9a9, type: 3}
-  launchSpeed: 5
+  fireballPrefab: {fileID: 598950626893798766, guid: 8a1da46e3bd137942a46a2424ffac48c, type: 3}
+  launchSpeed: 20
 --- !u!114 &7104744455655217848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,17 +255,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5693551330011816129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 761ba87115a4a5343810335c3c926a75, type: 3}
+  m_Script: {fileID: 11500000, guid: 06ee22a0fc914e34b8434e677d2fea76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 2
+  jumpHeight: 3
   jumpKey: 107
   jumptime: 1
-  groundCheck: {fileID: 6625365407398856324}
+  groundCheck: {fileID: 7048352058632332226}
   groundRadius: 0.1
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   isGrounded: 0
 --- !u!50 &7505796639307809012
 Rigidbody2D:
