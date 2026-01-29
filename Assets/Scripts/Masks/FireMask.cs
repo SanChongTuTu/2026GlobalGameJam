@@ -5,9 +5,9 @@ using UnityEngine;
 public class FireMask : MonoBehaviour
 {
     [Header("火球预制体")]
-    public GameObject fireballPrefab;   // 拖火球预制体
+    public GameObject fireballPrefab; 
     [Header("火球发射速度")]
-    public float launchSpeed = 20f;
+    public float launchSpeed = 8f;
     [Header("技能环绕数量")]
     public int orbCount = 3;
     [Header("环绕半径")]
@@ -19,12 +19,14 @@ public class FireMask : MonoBehaviour
     [Header("技能冷却时间")]
     public float skillCooldown = 30f;
 
+
     public float cooldownTimer { get; private set; } = 0;
     private List<GameObject> orbs = new List<GameObject>();
+    private Transform player;//环绕中心
 
     void Start()
     {
-
+        player = GameDataManager.Instance.player;
     }
 
 
@@ -37,6 +39,7 @@ public class FireMask : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L)&&cooldownTimer==0)
         {
+            cooldownTimer = skillCooldown;
             SpawnOrbs();
         }
 
@@ -57,21 +60,20 @@ public class FireMask : MonoBehaviour
 
     void SimpleAttack()
     {
-        GameObject fb = Instantiate(fireballPrefab, transform.position, transform.rotation);
-        Rigidbody2D rb = fb.GetComponent<Rigidbody2D>();
-        rb.velocity = transform.right * launchSpeed * Mathf.Sign(transform.localScale.x);  
+        GameObject fb = Instantiate(fireballPrefab, player.position, player.rotation);
+        Rigidbody2D rb = fb.transform.GetComponent<Rigidbody2D>();
+        rb.velocity = player.right * launchSpeed * Mathf.Sign(player.localScale.x);  
     }
 
     void SpawnOrbs()
     {
-        cooldownTimer = skillCooldown; 
         for (int i = 0; i < orbCount; i++)
         {
             float angle = i * 360f / orbCount;
             Vector3 dir = Quaternion.Euler(0, 0, angle) * Vector3.right;
-            Vector3 pos = transform.position + dir * radius;
+            Vector3 pos = player.position + dir * radius;
 
-            GameObject orb = Instantiate(fireballPrefab, pos, Quaternion.identity, transform);
+            GameObject orb = Instantiate(fireballPrefab, pos, Quaternion.identity, player);
             orb.GetComponent<Fireball>().ifpenetrate = true;
             orb.GetComponent<Fireball>().lifeTime = orbitDuration;
             orbs.Add(orb);
@@ -92,7 +94,7 @@ public class FireMask : MonoBehaviour
         {
             float a = angle + i * 360f / orbs.Count;
             Vector3 dir = Quaternion.Euler(0, 0, a) * Vector3.right;
-            orbs[i].transform.position = transform.position + dir * radius;
+            orbs[i].transform.position = player.position + dir * radius;
         }
     }
 }

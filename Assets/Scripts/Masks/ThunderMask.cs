@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class IceMask : MonoBehaviour
+public class ThunderMask : MonoBehaviour
 {
     [Header("冰球预制体")]
     public GameObject iceballPrefab;   
@@ -70,18 +70,18 @@ public class IceMask : MonoBehaviour
 
     void SimpleAttack()
     {
-        GameObject fb = Instantiate(iceballPrefab, player.position, player.rotation);
+        GameObject fb = Instantiate(iceballPrefab, transform.position, transform.rotation);
         Rigidbody2D rb = fb.GetComponent<Rigidbody2D>();
-        rb.velocity = player.right * launchSpeed * Mathf.Sign(player.localScale.x);  
+        rb.velocity = transform.right * launchSpeed * Mathf.Sign(transform.localScale.x);  
     }
 
     void Resetskill()
     {
         if (GetComponent<LineRenderer>() == null)
         {
-            line = player.AddComponent<LineRenderer>();
+            line = transform.AddComponent<LineRenderer>();
         }
-        else { line = player.GetComponent<LineRenderer>(); }
+        else { line = GetComponent<LineRenderer>(); }
         line.material = laserMaterial;
         line.startWidth = lineWidth;
         line.endWidth = lineWidth;
@@ -118,8 +118,8 @@ public class IceMask : MonoBehaviour
             }
 
             // 每帧重新算起点和方向
-            Vector3 start = player.position;
-            Vector3 dir = player.right * Mathf.Sign(player.localScale.x);
+            Vector3 start = transform.position;
+            Vector3 dir = transform.right * Mathf.Sign(transform.localScale.x);
 
             // 逐点采样
             List<Vector3> points = new List<Vector3>();
@@ -155,11 +155,11 @@ public class IceMask : MonoBehaviour
         line.positionCount = 0;
     }
 
-    //void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Vector2 origin = player.position;
-    //    Vector2 dir = player.right * Mathf.Sign(player.localScale.x);
-    //    Gizmos.DrawRay(origin, dir * range);
-    //}
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Vector2 origin = transform.position;
+        Vector2 dir = transform.right * Mathf.Sign(transform.localScale.x);
+        Gizmos.DrawRay(origin, dir * range);
+    }
 }

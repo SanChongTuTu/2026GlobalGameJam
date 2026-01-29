@@ -22,6 +22,7 @@ public class GameDataManager : MonoBehaviour
     }
     public enum Type
     {
+        none,
         iron,
         fire,
         wind,
@@ -66,6 +67,10 @@ public class GameDataManager : MonoBehaviour
 
     void Update()
     {
-        
+        if (playerType != Type.ice && player.GetComponent<LineRenderer>() != null)
+        {
+            player.GetComponent<LineRenderer>().positionCount = 0;
+            Destroy(player.GetComponent<LineRenderer>());
+        }
     }
 }

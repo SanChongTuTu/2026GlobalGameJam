@@ -20,7 +20,6 @@ public class AttackRangeTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        UnityEngine.Debug.Log(other.name);
         if (other.CompareTag("Player"))
         {
             transform.parent.GetComponent<Monster>()?.Attack(other,id);

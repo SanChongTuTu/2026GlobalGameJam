@@ -12,11 +12,14 @@ public class BasicControl : MonoBehaviour
 
     private Rigidbody2D _rb;
     private bool _isDead = false;
+    private Animator _animator;
+    private List<Component> masks=new List<Component>(6);
 
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-
+        _animator=GetComponent<Animator>();
+        masks.Add(GetComponent<IronMask>());
     }
 
     private float _nextAttackTime = 0f;
@@ -27,7 +30,7 @@ public class BasicControl : MonoBehaviour
 
         HandleMovement();
 
-        //HandleJump();
+        ChangeMask();
 
         Attack();
 
@@ -39,6 +42,14 @@ public class BasicControl : MonoBehaviour
         }
     }
 
+    void ChangeMask()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(i == (int)GameDataManager.Instance.playerType-1);
+        }
+    }
+
     void HandleMovement()
     {
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
@@ -47,10 +58,12 @@ public class BasicControl : MonoBehaviour
 
             // 使用当前实际移动速度
             _rb.velocity = new Vector2(h * GameDataManager.Instance.moveSpeed, _rb.velocity.y);
+            _animator.SetBool("Move", true);
         }
         else
         {
             _rb.velocity = new Vector2(0, _rb.velocity.y);
+            _animator.SetBool("Move", false);
         }
     }
 

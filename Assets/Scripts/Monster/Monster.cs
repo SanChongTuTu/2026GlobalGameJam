@@ -137,7 +137,6 @@ public abstract class Monster : MonoBehaviour
         if (_isDead) return;
 
         health -= amount;
-        Debug.Log($"{gameObject.name} took {amount} damage. Health: {health}");
 
         if (health <= 0)
         {

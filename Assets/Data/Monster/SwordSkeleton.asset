@@ -17,9 +17,8 @@ MonoBehaviour:
   health: 10
   damage: 5
   speed: 3
-  patrolRange: 2
   idleTime: 2
-  detectRange: 5
-  attackRange: 1.5
+  detectRange: 3
+  attackRange: 1
   attackCooldown: 2
   patrolDuration: 2
