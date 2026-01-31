@@ -57,6 +57,10 @@ public abstract class Monster : MonoBehaviour
     protected float baseScaleblood;
     protected Vector3 startPos;
     protected bool _isDead = false;
+    
+    protected bool isPlayerInRangedZone = false;
+    protected Collider2D playerInZoneCollider;
+    protected float dpsTimer = 0f;
 
     [Header("跳跃")]
     public float jumpVelocity = 12f;   // 起跳速度
@@ -347,5 +351,20 @@ public abstract class Monster : MonoBehaviour
         // 4. 正下方探地（绿色）
         Gizmos.color = Color.cyan;
         Gizmos.DrawRay(transform.position, Vector2.down * downCheckDist);
+    }
+    
+    public void SetPlayerInRange(bool isInRange, int id, Collider2D playerCol)
+    {
+        if (id == 1) 
+        {
+            isPlayerInRangedZone = isInRange;
+            playerInZoneCollider = playerCol;
+            if (isInRange) dpsTimer = 0f; 
+        }
+    }
+    
+    public bool IsDead() 
+    {
+        return _isDead;
     }
 }

@@ -345,6 +345,7 @@ GameObject:
   - component: {fileID: 3786636527447810550}
   - component: {fileID: 8737662584478389672}
   - component: {fileID: 4755352742734558663}
+  - component: {fileID: 4738009352935819295}
   m_Layer: 8
   m_Name: SkeletonKnight
   m_TagString: Enemy
@@ -549,6 +550,19 @@ MonoBehaviour:
   canbeHitStun: 1
   berserkThreshold: 0.5
   isBerserk: 0
+--- !u!114 &4738009352935819295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6217810166906804848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd23d73d457019145891fdcec78007f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 378d6772-ff8d-4661-9efa-0282a6fcd959
 --- !u!1 &7826704246535134949
 GameObject:
   m_ObjectHideFlags: 0

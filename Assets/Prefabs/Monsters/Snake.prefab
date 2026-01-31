@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 3385965846244954561}
   - component: {fileID: 6203651965420357003}
   - component: {fileID: 6475738043516908691}
+  - component: {fileID: 7355057146290969132}
   m_Layer: 8
   m_Name: Snake
   m_TagString: Enemy
@@ -330,6 +331,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.6321589, y: 1.9543114}
   m_EdgeRadius: 0
+--- !u!114 &7355057146290969132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3743988837343704818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd23d73d457019145891fdcec78007f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueID: 46397724-4631-483d-9325-32f46dfb47a7
 --- !u!1 &6578297802908334610
 GameObject:
   m_ObjectHideFlags: 0

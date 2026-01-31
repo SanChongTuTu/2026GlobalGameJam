@@ -66,4 +66,14 @@ public class CheckpointManager : MonoBehaviour
     {
         _currentCheckpointIndex = -1;
     }
+    
+    public int GetCurrentCheckpointIndex()
+    {
+        return _currentCheckpointIndex;
+    }
+
+    public void SetCurrentCheckpointIndex(int index)
+    {
+        _currentCheckpointIndex = index;
+    }
 }

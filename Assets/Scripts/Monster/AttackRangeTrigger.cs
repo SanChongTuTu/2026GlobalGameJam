@@ -6,10 +6,11 @@ using UnityEngine;
 public class AttackRangeTrigger : MonoBehaviour
 {
     public int id;
-    // Start is called before the first frame update
+    private Monster _monster;
+
     void Start()
     {
-        
+        _monster = transform.parent.GetComponent<Monster>();
     }
 
     // Update is called once per frame
@@ -22,8 +23,23 @@ public class AttackRangeTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            transform.parent.GetComponent<Monster>()?.Attack(other,id);
-            GetComponent<Collider2D>().enabled = false;
+            if (id == 0) // MELEE
+            {
+                transform.parent.GetComponent<Monster>()?.Attack(other, id);
+                enabled = false;
+            }
+            else if (id == 1) // RANGED
+            {
+                transform.parent.GetComponent<Vampire>()?.SetPlayerInRange(true, id, other);
+            }
+        }
+    }
+    
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _monster.SetPlayerInRange(false, id, null);
         }
     }
 

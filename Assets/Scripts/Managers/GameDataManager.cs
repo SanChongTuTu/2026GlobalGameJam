@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameDataManager : MonoBehaviour
 {
@@ -30,22 +31,27 @@ public class GameDataManager : MonoBehaviour
         thunder,
         death
     }
-    [Header("Íæ¼Ò")]
+    
+    [Header("Persistence")]
+    public Vector3 lastPlayerPosition;
+    public string currentSceneName;
+    
+    [Header("ï¿½ï¿½ï¿½")]
     public Transform player;
-    [Header("Íæ¼Òµ±Ç°Ãæ¾ß")]
+    [Header("ï¿½ï¿½Òµï¿½Ç°ï¿½ï¿½ï¿½")]
     public Type playerType;
-    [Header("Íæ¼ÒÉúÃüÖµ")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ")]
     public float health;
-    [Header("Íæ¼Ò¹¥»÷Á¦")]
+    [Header("ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float damage;
-    [Header("Íæ¼ÒÒÆËÙ")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float moveSpeed;
-    [Header("Íæ¼ÒÌøÔ¾¸ß¶È")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½ß¶ï¿½")]
     public float jumpForce;
-    [Header("Íæ¼Ò¹¥»÷¼ä¸ô")]
+    [Header("ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float attackCooldown;
 
-    float savespeed;//¼ÇÂ¼µ±Ç°ËÙ¶È
+    float savespeed;//ï¿½ï¿½Â¼ï¿½ï¿½Ç°ï¿½Ù¶ï¿½
     float savedamage;
     float saveattackcooldown;
 
@@ -73,6 +79,18 @@ public class GameDataManager : MonoBehaviour
 
     void Update()
     {
+        if (player != null)
+        {
+            lastPlayerPosition = player.position;
+        }
+        
+        string activeScene = SceneManager.GetActiveScene().name;
+        if (currentSceneName != activeScene)
+        {
+            currentSceneName = activeScene;
+            Debug.Log($"Scene changed to: {currentSceneName}");
+        }
+        
         if (playerType != Type.ice && player.GetComponent<LineRenderer>() != null)
         {
             player.GetComponent<LineRenderer>().positionCount = 0;
@@ -102,5 +120,19 @@ public class GameDataManager : MonoBehaviour
             moveSpeed = savespeed;
             damage=savedamage;
         }
+    }
+    
+    public void SavePlayerData()
+    {
+        if (player != null)
+        {
+            lastPlayerPosition = player.position;
+        }
+        currentSceneName = SceneManager.GetActiveScene().name;
+        
+        PlayerPrefs.SetFloat("PlayerX", lastPlayerPosition.x);
+        PlayerPrefs.SetFloat("PlayerY", lastPlayerPosition.y);
+        PlayerPrefs.SetString("SavedScene", currentSceneName);
+        PlayerPrefs.Save();
     }
 }

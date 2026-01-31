@@ -31,6 +31,7 @@ public class Vampire : Monster
     private bool _isInvulnerable = false;
 
     private SpriteRenderer _sr;
+    private bool _isReturning = false;
 
     void Start()
     {
@@ -93,6 +94,14 @@ public class Vampire : Monster
                 health = Mathf.Min(health + healAmount, monsterdata.health);
                 Debug.Log($"Leeched {healAmount} health.");
             }
+            
+            if (id == 0)
+            {
+                _isReturning = true;
+                currentState = State.Idle;
+                Debug.Log("Melee hit confirmed. Returning to start position.");
+            }
+            
             else if (id == 1)
             {
                 SetEffect("SpeedLeech", speedLeechDuration);
@@ -138,6 +147,12 @@ public class Vampire : Monster
 
     protected override void IdleState(float dist)
     {
+        if (_isReturning)
+        {
+            ReturnToOrigin();
+            return;
+        }
+        
         rb.velocity = new Vector2(Mathf.Cos(Time.time) * 1.5f, Mathf.Sin(Time.time) * 1.5f);
 
         if (dist < monsterdata.detectRange) currentState = State.Chase;
@@ -153,6 +168,12 @@ public class Vampire : Monster
 
     protected override void PatrolState(float dist)
     {
+        if (_isReturning)
+        {
+            ReturnToOrigin();
+            return;
+        }
+        
         if (dist < monsterdata.detectRange)
         {
             currentState = State.Chase;
@@ -171,6 +192,12 @@ public class Vampire : Monster
 
     protected override void ChaseState(float dist)
     {
+        if (_isReturning)
+        {
+            ReturnToOrigin();
+            return;
+        }
+        
         if (dist <= monsterdata.attackRange)
         {
             rb.velocity = Vector2.zero;
@@ -189,10 +216,39 @@ public class Vampire : Monster
         if (attackTimer >= monsterdata.attackCooldown)
         {
             attackTimer = 0;
-            FaceTo(player.position.x - transform.position.x);
-            //anim.SetTrigger("Attack");
+        }
+        
+        if (isPlayerInRangedZone && playerInZoneCollider != null)
+        {
+            dpsTimer += Time.deltaTime;
+
+            if (dpsTimer >= 1.0f)
+            {
+                dpsTimer = 0f;
+                
+                Attack(playerInZoneCollider, 1); 
             
-            if (dist > monsterdata.attackRange) currentState = State.Chase;
+                Debug.Log("Periodic Ranged Damage Dealt!");
+            }
+        }
+        
+        if (dist > monsterdata.attackRange && !isPlayerInRangedZone) 
+        {
+            currentState = State.Chase;
+        }
+    }
+    
+    private void ReturnToOrigin()
+    {
+        Vector2 direction = ((Vector2)startPos - (Vector2)transform.position).normalized;
+        rb.velocity = direction * speed;
+        FaceTo(direction.x);
+        
+        if (Vector2.Distance(transform.position, startPos) < 0.5f)
+        {
+            _isReturning = false;
+            rb.velocity = Vector2.zero;
+            Debug.Log("Returned to origin. Resuming normal AI.");
         }
     }
 
