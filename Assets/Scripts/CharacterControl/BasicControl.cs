@@ -12,13 +12,14 @@ public class BasicControl : MonoBehaviour
     public float attackslow = 0.5f;//��������˥��
     public float jumpattackslow = 0.7f;//��Ծ��������˥��
     public bool attacking = false;
+    
     public SpriteRenderer render;//��Ӱ����
 
     private Rigidbody2D _rb;
     private bool _isDead = false;
     private Animator _animator;
 
-
+    private float stoptime = 0;
     private SpriteRenderer[] renderers;
     private List<GameObject> ghosts = new List<GameObject>();
     private bool isTrailing = false;   // ����
@@ -42,6 +43,18 @@ public class BasicControl : MonoBehaviour
     {
         if (_isDead) return;
 
+        if (stoptime>0){
+            stoptime-=Time.deltaTime;
+            _animator.speed = 0f;
+            AnimatorStateInfo info = _animator.GetCurrentAnimatorStateInfo(0);
+            _animator.Play(info.shortNameHash, 0, info.normalizedTime);
+            return; 
+        }
+        else
+        {
+            _animator.speed = 1f;
+        }
+
         if (GetComponentInChildren<WindMask>() != null)
         {
             WindMask one = GetComponentInChildren<WindMask>();
@@ -50,9 +63,9 @@ public class BasicControl : MonoBehaviour
             ghostColor = one.ghostColor;
         }
 
-        HandleMovement();
-
         ChangeMask();
+
+        HandleMovement();
 
         float h = Input.GetAxis("Horizontal");
 
@@ -70,6 +83,11 @@ public class BasicControl : MonoBehaviour
         {
             GetComponentInChildren<WindMask>()?.Attack();
         }
+    }
+
+    public void StopAction(float time)
+    {
+        stoptime = time;
     }
 
     void ChangeMask()
@@ -100,8 +118,8 @@ public class BasicControl : MonoBehaviour
                     h = Input.GetAxis("Horizontal");
                 }
             }
-            _rb.velocity = new Vector2(h * GameDataManager.Instance.moveSpeed, _rb.velocity.y);
             _animator.SetBool("Move", true);
+            _rb.velocity = new Vector2(h * GameDataManager.Instance.moveSpeed, _rb.velocity.y);
         }
         else
         {

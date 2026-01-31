@@ -12,6 +12,8 @@ public class IceMask : MonoBehaviour
     public float launchSpeed = 8f;
     [Header("技能冷却时间")]
     public float skillCooldown = 30f;
+    [Header("普通攻击间隔时间")]
+    public float simpleattackinterval = 0.5f;
 
     [Header("激光长度")]
     public float range = 10f;           // 射线长度
@@ -28,6 +30,7 @@ public class IceMask : MonoBehaviour
     public float damageInterval = 0.01f;        // 伤害间隔（越小越准）
 
     [Header("美术材质")]
+    public GameObject model;
     public Material laserMaterial;               // 拖红色材质
     public float lineWidth = 0.1f;            // 激光宽度
     public float cooldownTimer { get; private set; } = 0;
@@ -36,27 +39,44 @@ public class IceMask : MonoBehaviour
     private float damageTimer = 0f;
     private float durationtime = 0f;
     private Transform player;//环绕中心
+    private float atktime=-1;
 
 
     void Start()
     {
+        model.SetActive(false);
         player = GameDataManager.Instance.player;
     }
 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J)&&durationtime==0)
+        bool attacking = player.GetComponent<BasicControl>().attacking;
+        if (Input.GetKeyDown(KeyCode.J) && !attacking && durationtime == 0)
         {
+            atktime = simpleattackinterval;
+            player.GetComponent<BasicControl>().attacking = true;
             SimpleAttack();
         }
 
         if (Input.GetKeyDown(KeyCode.L)&&cooldownTimer==0)
         {
+            player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            player.GetComponent<BasicControl>().StopAction(duration);
+            model.SetActive(true);
             cooldownTimer = skillCooldown;
             PlayerInfoManager.Instance.SkillCoolDown(skillCooldown);
             Resetskill();
             StartCoroutine(CastLaser());
+        }
+        if (atktime > 0)
+        {
+            atktime -= Time.deltaTime;
+        }
+        if (atktime <= 0&&atktime>-1)
+        {
+            player.GetComponent<BasicControl>().attacking = false;
+            atktime = -1;
         }
 
         if (cooldownTimer > 0)
@@ -99,6 +119,7 @@ public class IceMask : MonoBehaviour
         // 激光结束
         line.positionCount = 0;
         durationtime = 0f;
+        model.SetActive(false);
         Destroy(line);
     }
 
@@ -141,14 +162,14 @@ public class IceMask : MonoBehaviour
                     if (hitThisInterval.Contains(hit)) continue;
                     hitThisInterval.Add(hit);
                     hit.GetComponent<Monster>()?.TakeDamage(damagePerSec * damageInterval);
-                    hit.GetComponent<Monster>()?.SetEffect("Slow", 5);
-                    hit.GetComponent<Monster>()?.SetEffect("Freeze", 0.5f);
+                    hit.GetComponent<Monster>()?.SetEffect("Slow", 10);
+                    hit.GetComponent<Monster>()?.SetEffect("Freeze", 3f);
                 }
             }
 
             // 画激光（GPU 画线）
-            line.positionCount = points.Count;
-            line.SetPositions(points.ToArray());
+            //line.positionCount = points.Count;
+            //line.SetPositions(points.ToArray());
 
             yield return null; // 每帧更新
         }

@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45430814e50c56c45863625f18f4e782, type: 3}
-  m_Name: muskpeople
+  m_Name: WisdomMask
   m_EditorClassIdentifier: 
   monstername: "\u9ED1\u6697\u9762\u5177\u4EBA"
   type: 2
   health: 100
   damage: 10
-  speed: 10
-  idleTime: 2
-  detectRange: 10
-  attackRange: 1.5
+  speed: {x: 1.2, y: 2}
+  idleTime: 2.5
+  detectRange: 12
+  attackRange: 10
   attackCooldown: 2
   patrolDuration: 2
+  canBeKnocked: 0
+  canbeHitStun: 0

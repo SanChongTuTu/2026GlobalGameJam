@@ -46,6 +46,8 @@ public class IronMask : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L)&&cooldownTimer==0)
         {
+            player.GetComponent<BasicControl>().attacking = true;
+            player.GetComponent<Animator>().SetTrigger("HitAttack");
             cooldownTimer = skillCooldown;
             PlayerInfoManager.Instance.SkillCoolDown(skillCooldown);
             StartCoroutine(DashAttack());
@@ -85,6 +87,7 @@ public class IronMask : MonoBehaviour
 
     IEnumerator DashAttack()
     {
+        yield return new WaitForSeconds(0.2f); 
         // 1. Ãæ³¯·½Ïò
         float dir = Mathf.Sign(player.localScale.x);
         Vector2 start = player.position;

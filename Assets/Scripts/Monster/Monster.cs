@@ -67,7 +67,7 @@ public abstract class Monster : MonoBehaviour
     public Vector2 rayStartOffset = new Vector2(0, 0.15f); // x=左右，y=上下
     [Header("击飞")]
     public bool canBeKnocked = true;    // 是否可以被击飞
-    [Header("硬直/麻痹")]
+    [Header("是否会被控制")]
     public bool canbeHitStun = true;    // 是否可以硬直
 
     protected float hitStunTimer = 0f;  // 剩余硬直
@@ -115,7 +115,12 @@ public abstract class Monster : MonoBehaviour
     public void LoadState()//��ʱ��ȡ״̬
     {
         if (player == null) return;
-
+        UpdateBloodBar();
+        if (_isDead)
+        {
+            anim.speed = 1;
+            return;
+        }
         var toRemove = new List<Effect>();
         foreach (var effect in effects)
         {
@@ -139,9 +144,8 @@ public abstract class Monster : MonoBehaviour
             effects.Remove(toRemove[i]);
         }
 
-        UpdateBloodBar();
 
-        if (effects.Contains(effects.Find(e => e.effectname == "Slow"||e.effectname=="Freeze")))
+        if (effects.Contains(effects.Find(e => e.effectname == "Slow"||e.effectname=="Freeze"))&&canbeHitStun)
         {
             render.color = Color.blue;
         }
@@ -150,14 +154,15 @@ public abstract class Monster : MonoBehaviour
             render.color = Color.white;
         }
 
-        if(effects.Contains(effects.Find(e => e.effectname == "Freeze")))
+        if(effects.Contains(effects.Find(e => e.effectname == "Freeze")) && canbeHitStun)
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
             hitStunTimer=effects.Find(e => e.effectname == "Freeze").time;
         }
 
-        if (hitStunTimer>0)
+        if (hitStunTimer>0&&canbeHitStun)
         {
+            if(_isDead) return;
             hitStunTimer -= Time.deltaTime;
             anim.speed = 0f;
             AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
@@ -224,6 +229,11 @@ public abstract class Monster : MonoBehaviour
     }
 
     public abstract void Die();
+
+    public void Destroythis()
+    {
+        Destroy(gameObject);
+    }
 
     #region ״̬������ʵ�ֳ��󷽷�
     protected abstract void IdleState(float dist);//��������

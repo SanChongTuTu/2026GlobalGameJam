@@ -8,6 +8,8 @@ public class ThunderMask : MonoBehaviour
     public GameObject fireballPrefab;
     [Header("雷球发射速度")]
     public float launchSpeed = 8f;
+    [Header("普通攻击间隔时间")]
+    public float simpleattackinterval = 0.5f;
 
     [Header("雷炮预制体")]
     public GameObject fireball2Prefab;
@@ -23,6 +25,7 @@ public class ThunderMask : MonoBehaviour
     public float cooldownTimer { get; private set; } = 0;
     private List<GameObject> orbs = new List<GameObject>();
     private Transform player;//环绕中心
+    private float atktime = -1;
 
     void Start()
     {
@@ -32,8 +35,11 @@ public class ThunderMask : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        bool attacking = player.GetComponent<BasicControl>().attacking;
+        if (Input.GetKeyDown(KeyCode.J) && !attacking)
         {
+            atktime = simpleattackinterval;
+            player.GetComponent<BasicControl>().attacking = true;
             SimpleAttack();
         }
 
@@ -42,6 +48,16 @@ public class ThunderMask : MonoBehaviour
             cooldownTimer = skillCooldown;
             PlayerInfoManager.Instance.SkillCoolDown(skillCooldown);
             Shoot();
+        }
+
+        if (atktime > 0)
+        {
+            atktime -= Time.deltaTime;
+        }
+        if (atktime <= 0 && atktime > -1)
+        {
+            player.GetComponent<BasicControl>().attacking = false;
+            atktime = -1;
         }
 
         if (cooldownTimer > 0)

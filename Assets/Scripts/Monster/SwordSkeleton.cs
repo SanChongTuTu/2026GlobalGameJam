@@ -18,8 +18,8 @@ public class SwordSkeleton : Monster
     public override void Die()
     {
         _isDead = true;
+        anim.SetTrigger("Die");
 
-        Destroy(gameObject);
     }
 
     #region 行为状态实现

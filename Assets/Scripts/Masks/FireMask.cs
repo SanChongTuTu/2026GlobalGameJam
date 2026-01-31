@@ -8,6 +8,8 @@ public class FireMask : MonoBehaviour
     public GameObject fireballPrefab; 
     [Header("火球发射速度")]
     public float launchSpeed = 8f;
+    [Header("普通攻击间隔时间")]
+    public float simpleattackinterval = 0.5f;
     [Header("技能环绕数量")]
     public int orbCount = 3;
     [Header("环绕半径")]
@@ -23,6 +25,7 @@ public class FireMask : MonoBehaviour
     public float cooldownTimer { get; private set; } = 0;
     private List<GameObject> orbs = new List<GameObject>();
     private Transform player;//环绕中心
+    private float atktime = -1;
 
     void Start()
     {
@@ -32,8 +35,11 @@ public class FireMask : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        bool attacking = player.GetComponent<BasicControl>().attacking;
+        if (Input.GetKeyDown(KeyCode.J) && !attacking)
         {
+            atktime = simpleattackinterval;
+            player.GetComponent<BasicControl>().attacking = true;
             SimpleAttack();
         }
 
@@ -47,6 +53,16 @@ public class FireMask : MonoBehaviour
         if(orbs.Count > 0)
         {
             Orbit();
+        }
+
+        if (atktime > 0)
+        {
+            atktime -= Time.deltaTime;
+        }
+        if (atktime <= 0 && atktime > -1)
+        {
+            player.GetComponent<BasicControl>().attacking = false;
+            atktime = -1;
         }
 
         if (cooldownTimer > 0)

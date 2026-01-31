@@ -18,8 +18,7 @@ public class Snake : Monster
     public override void Die()
     {
         _isDead = true;
-
-        Destroy(gameObject);
+        anim.SetTrigger("Die");
     }
 
     #region 行为状态实现

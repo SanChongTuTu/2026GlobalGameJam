@@ -47,6 +47,7 @@ public class GameDataManager : MonoBehaviour
 
     float savespeed;//记录当前速度
     float savedamage;
+    float saveattackcooldown;
 
     private void Awake()
     {
@@ -66,6 +67,7 @@ public class GameDataManager : MonoBehaviour
     {
         savespeed=moveSpeed;
         savedamage = damage;
+        saveattackcooldown = attackCooldown;
     }
 
 
@@ -84,12 +86,14 @@ public class GameDataManager : MonoBehaviour
             if (strength)
             {
                 moveSpeed = savespeed * 2f;
-                damage = savedamage*1.8f;
+                damage = savedamage*1.5f;
+                attackCooldown = saveattackcooldown * 0.5f;
             }
             else
             {
                 moveSpeed = savespeed * 1.2f;
                 damage = savedamage;
+                attackCooldown = saveattackcooldown;
             }
             player.GetComponent<JumpController>().jumptime = 2;
         }

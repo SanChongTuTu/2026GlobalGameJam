@@ -9,6 +9,8 @@ public class WindMask : MonoBehaviour
 {
     [Header("近战攻击范围")]
     public Collider2D attackcollider;
+    [Header("近战攻击范围2")]
+    public Collider2D attackcollider2;
 
     [Header("技能冷却时间")]
     public float skillCooldown = 30f;
@@ -80,8 +82,16 @@ public class WindMask : MonoBehaviour
 
     public void SimpleAttack()
     {
-        player.GetComponent<Animator>().SetTrigger("ShortAttack");
-        attackcollider.enabled = true;
+        if(strength == true)
+        {
+            player.GetComponent<Animator>().SetTrigger("HitAttack");
+            attackcollider2.enabled = true;
+        }
+        else
+        {
+            player.GetComponent<Animator>().SetTrigger("ShortAttack");
+            attackcollider.enabled = true;
+        }
     }
 
     public void Attack()
