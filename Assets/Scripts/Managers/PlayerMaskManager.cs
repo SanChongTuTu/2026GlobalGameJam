@@ -121,4 +121,32 @@ public class PlayerMaskManager : MonoBehaviour
             }
         }
     }
+    
+    public int GetCurrentMaskIndex()
+    {
+        return _currentMaskIndex;
+    }
+
+    public List<int> GetUnlockedIndices()
+    {
+        List<int> indices = new List<int>();
+        for(int i = 0; i < masks.Count; i++)
+        {
+            if (masks[i].isUnlocked) indices.Add(i);
+        }
+        return indices;
+    }
+
+    public void LoadUnlockedIndices(List<int> unlockedIndices)
+    {
+        foreach(var m in masks) m.isUnlocked = false; 
+        
+        foreach(int index in unlockedIndices)
+        {
+            if(index >= 0 && index < masks.Count)
+            {
+                masks[index].isUnlocked = true;
+            }
+        }
+    }
 }

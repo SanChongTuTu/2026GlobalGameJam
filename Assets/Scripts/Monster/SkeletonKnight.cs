@@ -6,71 +6,57 @@ public class SkeletonKnight : Monster
 {
     [Header("骷髅骑士特有属性")]
     [SerializeField] private float berserkThreshold = 0.5f; // 狂暴阈值(50%血量)
-    [SerializeField] private bool isBerserk = false; // 是否处于狂暴状态（永久性）
-
-    private bool hasTriggeredBerserk = false; // 是否已触发狂暴
+    private bool hasTriggeredBerserk = false; // 是否已触发狂暴（永久性）
     private float berserkSpeedMultiplier = 1.5f; // 狂暴速度倍率
 
     void Start()
     {
         Reset();
-        // 初始化攻击力 (修正：使用 damage 而非 attackDamage)
-        damage = monsterdata.damage;
     }
 
     void Update() => LoadState();
 
-    // 处理受伤 - 使用 new 隐藏基类方法，保持参数签名一致
+    // 处理受伤 - 匹配基类签名
     public new void TakeDamage(float amount, float? hitstuntime = 0, Vector2? knockBackDir = null)
     {
-        // 调用基类方法处理实际受伤逻辑
         base.TakeDamage(amount, hitstuntime, knockBackDir);
 
-        // 检查是否需要进入狂暴状态 (修正：使用 health 和 monsterdata.health)
+        // 检查是否需要进入狂暴状态
         if (!hasTriggeredBerserk && health <= monsterdata.health * berserkThreshold)
         {
             EnterBerserkMode();
         }
     }
 
-    // 进入狂暴状态
+    // 进入狂暴状态 - 永久性，只提升速度，动画通过 hasTriggeredBerserk 区分
     private void EnterBerserkMode()
     {
         if (hasTriggeredBerserk) return;
 
-        isBerserk = true;
         hasTriggeredBerserk = true;
-
-        // 只增加速度
         speed *= berserkSpeedMultiplier;
 
-        // 播放狂暴特效动画
-        anim.SetTrigger("Berserk");
-
-        Debug.Log("骷髅骑士进入狂暴状态！速度提升！");
+        Debug.Log("骷髅骑士进入狂暴状态！攻击和速度提升！");
     }
 
-    // 攻击逻辑
     public override void Attack(Collider2D other, int id)
     {
         other.GetComponent<BasicControl>()?.TakeDamage(damage);
     }
 
-    // 死亡逻辑
     public override void Die()
     {
         _isDead = true;
 
-        // 设置死亡动画
+        // 停止移动
+        rb.velocity = Vector2.zero;
         anim.SetBool("Move", false);
         anim.SetTrigger("Die");
 
-        // 禁用碰撞和移动
-        rb.velocity = Vector2.zero;
+        // 禁用碰撞和AI
         GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
 
-        // 延迟销毁，给死亡动画播放时间
         StartCoroutine(DestroyAfterDeath());
     }
 
@@ -87,6 +73,7 @@ public class SkeletonKnight : Monster
         rb.velocity = new Vector2(0, rb.velocity.y);
         anim.SetBool("Move", false);
 
+        // 发现玩家，进入追击
         if (dist < monsterdata.detectRange)
         {
             anim.SetBool("Move", true);
@@ -108,10 +95,10 @@ public class SkeletonKnight : Monster
 
     protected override void PatrolState(float dist)
     {
+        // 发现玩家，立即追击
         if (dist < monsterdata.detectRange)
         {
             currentState = State.Chase;
-            anim.SetBool("Move", true);
             return;
         }
 
@@ -119,13 +106,12 @@ public class SkeletonKnight : Monster
         float moveDir = facingRight ? 1 : -1;
 
         // 减速效果
-        if (effects.Contains(effects.Find(e => e.effectname == "Slow")))
+        if (effects.Exists(e => e.effectname == "Slow"))
             moveDir *= 0.5f;
 
-        // 狂暴状态下移动更快
-        float currentSpeed = isBerserk ? speed : speed;
-        rb.velocity = new Vector2(moveDir * currentSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(moveDir * speed, rb.velocity.y);
 
+        // 遇到障碍或悬崖，回头进入Idle
         if (ShouldTurn(moveDir))
         {
             patrolTimer = 0;
@@ -135,6 +121,7 @@ public class SkeletonKnight : Monster
             return;
         }
 
+        // 巡逻时间结束，回头Idle
         if (patrolTimer >= monsterdata.patrolDuration)
         {
             patrolTimer = 0;
@@ -147,25 +134,15 @@ public class SkeletonKnight : Monster
 
     protected override void ChaseState(float dist)
     {
-        // 狂暴状态下移动动画可以更激烈
-        if (isBerserk)
-        {
-            anim.SetBool("Move", true);
-        }
-
+        // 进入攻击范围，切换攻击状态（Move动画保持，AttackState会处理）
         if (dist <= monsterdata.attackRange)
         {
-            float moveDirS = player.position.x > transform.position.x ? 1 : -1;
-            if (effects.Contains(effects.Find(e => e.effectname == "Slow")))
-                moveDirS *= 0.5f;
-
-            rb.velocity = new Vector2(moveDirS * speed * 0.8f, rb.velocity.y);
-
-            anim.SetBool("Move", false);
             currentState = State.Attack;
+            attackTimer = monsterdata.attackCooldown; // 进入立即攻击
             return;
         }
 
+        // 丢失目标，回到Idle
         if (dist > monsterdata.detectRange * 1.5f)
         {
             anim.SetBool("Move", false);
@@ -173,7 +150,15 @@ public class SkeletonKnight : Monster
             return;
         }
 
+        // 计算方向
         float dirX = player.position.x > transform.position.x ? 1 : -1;
+        float moveDir = dirX;
+
+        // 减速效果
+        if (effects.Exists(e => e.effectname == "Slow"))
+            moveDir *= 0.5f;
+
+        // 环境检测（悬崖和墙壁）
         Vector2 origin = transform.position + Vector3.up * 0.15f;
         Vector2 ledgeDir = new Vector2(dirX, -1).normalized;
         bool groundHere = Physics2D.Raycast(transform.position, Vector2.down, downCheckDist, groundLayer);
@@ -187,76 +172,84 @@ public class SkeletonKnight : Monster
         int c = Physics2D.Raycast(origin, ledgeDir, ledgeFilter, hits, ledgeCheckDist);
         bool ledgeEmpty = c == 0;
 
-        bool needJump = (ledgeEmpty && groundHere) || wallAhead;
-        if (needJump && Mathf.Abs(rb.velocity.y) < 0.1f)
+        // 需要跳跃（遇到障碍或悬崖）
+        if ((ledgeEmpty && groundHere) || wallAhead)
         {
-            float jumpForce = isBerserk ? jumpVelocity * 1.2f : jumpVelocity;
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            return;
+            if (Mathf.Abs(rb.velocity.y) < 0.1f)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
+            }
         }
 
-        float moveDir = player.position.x > transform.position.x ? 1 : -1;
-        if (effects.Contains(effects.Find(e => e.effectname == "Slow")))
-            moveDir *= 0.5f;
-
+        // 持续追击移动
         rb.velocity = new Vector2(moveDir * speed, rb.velocity.y);
         FaceTo(dirX);
+
+        // 确保Move动画播放
+        anim.SetBool("Move", true);
     }
 
     protected override void AttackState(float dist)
     {
+        // 玩家逃出攻击范围
+        if (dist > monsterdata.attackRange)
+        {
+            // 如果还在检测范围内，追击；否则Idle
+            if (dist < monsterdata.detectRange)
+            {
+                anim.SetBool("Move", true);
+                currentState = State.Chase;
+            }
+            else
+            {
+                anim.SetBool("Move", false);
+                currentState = State.Idle;
+            }
+            return;
+        }
+
+        // 攻击冷却计时
         attackTimer += Time.deltaTime;
 
+        // 冷却结束，执行攻击
         if (attackTimer >= monsterdata.attackCooldown)
         {
             attackTimer = 0;
+
+            // 面向玩家
             float dirX = player.position.x > transform.position.x ? 1 : -1;
-            float moveDir = player.position.x > transform.position.x ? 1 : -1;
-
-            if (effects.Contains(effects.Find(e => e.effectname == "Slow")))
-                moveDir *= 0.5f;
-
-            rb.velocity = new Vector2(moveDir * speed * 0.5f, rb.velocity.y);
             FaceTo(dirX);
 
-            // 根据狂暴状态选择不同的攻击动画
-            if (isBerserk)
+            // 根据狂暴状态选择攻击动画（关键逻辑）
+            if (hasTriggeredBerserk)
             {
                 anim.SetTrigger("AttackTwo");
+                Debug.Log("狂暴攻击！");
             }
             else
             {
                 anim.SetTrigger("AttackOne");
             }
-
-            if (dist <= monsterdata.attackRange)
-            {
-                anim.SetBool("Move", false);
-                currentState = State.Attack;
-            }
-            else
-            {
-                anim.SetBool("Move", true);
-                currentState = State.Chase;
-            }
         }
 
-        if (player != null)
+        player.GetComponent<BasicControl>()?.TakeDamage(damage);
+
+        
+        if (dist > monsterdata.attackRange * 0.5f)
         {
-            float dirX = player.position.x > transform.position.x ? 1 : -1;
-            FaceTo(dirX);
+            float approachDir = player.position.x > transform.position.x ? 1 : -1;
+            if (effects.Exists(e => e.effectname == "Slow"))
+                approachDir *= 0.5f;
+            rb.velocity = new Vector2(approachDir * speed * 0.3f, rb.velocity.y);
         }
-    }
-
-    // 面向方向（如果基类 FaceTo 不可访问则保留）
-    private void FaceTo(float dirX)
-    {
-        if (dirX > 0 && !facingRight || dirX < 0 && facingRight)
+        else
         {
-            facingRight = !facingRight;
-            float newScaleX = facingRight ? baseScaleX : -baseScaleX;
-            transform.localScale = new Vector3(newScaleX, transform.localScale.y, 1);
+            // 距离够近，停止移动专注攻击
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
+
+        // 攻击期间保持Move为false（播放攻击动画）
+        anim.SetBool("Move", false);
     }
 
     #endregion

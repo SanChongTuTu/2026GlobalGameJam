@@ -6,21 +6,20 @@ public class VolumeUI : MonoBehaviour
     [Header("主音量控制")]
     [SerializeField] private Slider masterSlider;
     [SerializeField] private Button masterMuteButton;
-    [SerializeField] private Image masterMuteIcon;
+    [SerializeField] private Image masterMuteIconOn;   // 音量开启图标
+    [SerializeField] private Image masterMuteIconOff;  // 静音图标
 
     [Header("音乐音量控制")]
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Button musicMuteButton;
-    [SerializeField] private Image musicMuteIcon;
+    [SerializeField] private Image musicMuteIconOn;    // 音量开启图标
+    [SerializeField] private Image musicMuteIconOff;   // 静音图标
 
     [Header("音效音量控制")]
     [SerializeField] private Slider sfxSlider;
     [SerializeField] private Button sfxMuteButton;
-    [SerializeField] private Image sfxMuteIcon;
-
-    [Header("图标")]
-    [SerializeField] private Sprite iconVolumeOn;
-    [SerializeField] private Sprite iconVolumeOff;
+    [SerializeField] private Image sfxMuteIconOn;      // 音量开启图标
+    [SerializeField] private Image sfxMuteIconOff;     // 静音图标
 
     private VolumeManager volumeManager;
 
@@ -158,10 +157,12 @@ public class VolumeUI : MonoBehaviour
             masterSlider.value = volumeManager.GetMasterVolume();
         }
 
-        if (masterMuteIcon != null && iconVolumeOn != null && iconVolumeOff != null)
-        {
-            masterMuteIcon.sprite = volumeManager.IsMasterMuted() ? iconVolumeOff : iconVolumeOn;
-        }
+        // 两个图标切换显示：未静音显示On图标，静音显示Off图标
+        bool isMuted = volumeManager.IsMasterMuted();
+        if (masterMuteIconOn != null)
+            masterMuteIconOn.gameObject.SetActive(!isMuted);
+        if (masterMuteIconOff != null)
+            masterMuteIconOff.gameObject.SetActive(isMuted);
     }
 
     void UpdateMusicUI()
@@ -174,10 +175,11 @@ public class VolumeUI : MonoBehaviour
             musicSlider.value = volumeManager.GetMusicVolume();
         }
 
-        if (musicMuteIcon != null && iconVolumeOn != null && iconVolumeOff != null)
-        {
-            musicMuteIcon.sprite = volumeManager.IsMusicMuted() ? iconVolumeOff : iconVolumeOn;
-        }
+        bool isMuted = volumeManager.IsMusicMuted();
+        if (musicMuteIconOn != null)
+            musicMuteIconOn.gameObject.SetActive(!isMuted);
+        if (musicMuteIconOff != null)
+            musicMuteIconOff.gameObject.SetActive(isMuted);
     }
 
     void UpdateSFXUI()
@@ -190,10 +192,11 @@ public class VolumeUI : MonoBehaviour
             sfxSlider.value = volumeManager.GetSFXVolume();
         }
 
-        if (sfxMuteIcon != null && iconVolumeOn != null && iconVolumeOff != null)
-        {
-            sfxMuteIcon.sprite = volumeManager.IsSFXMuted() ? iconVolumeOff : iconVolumeOn;
-        }
+        bool isMuted = volumeManager.IsSFXMuted();
+        if (sfxMuteIconOn != null)
+            sfxMuteIconOn.gameObject.SetActive(!isMuted);
+        if (sfxMuteIconOff != null)
+            sfxMuteIconOff.gameObject.SetActive(isMuted);
     }
 
     void OnEnable()

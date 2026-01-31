@@ -95,8 +95,6 @@ public class MaskController : MonoBehaviour
         }
     }
 
-    // ========== 按钮点击处理 ==========
-
     void OnMaskButtonClicked(int index)
     {
         currentMaskIndex = index;
@@ -118,20 +116,27 @@ public class MaskController : MonoBehaviour
 
     void OpenMaskDetail()
     {
-        if (maskPanel != null)
-            maskPanel.SetActive(false);
-
+        
         if (maskDetailPanel != null)
         {
             maskDetailPanel.SetActive(true);
-            // 确保UI显示正确
-            StartCoroutine(RefreshUI());
         }
 
-        // 禁用面具面板的按钮（模态效果）
-        SetMaskPanelButtons(false);
-    }
+        
+        if (maskPanel != null)
+            maskPanel.SetActive(false);
 
+        
+        SetMaskPanelButtons(false);
+
+       
+        if (detailName != null) detailName.SetAllDirty();
+        if (detailDescription != null) detailDescription.SetAllDirty();
+        if (detailAttack != null) detailAttack.SetAllDirty();
+        if (detailSkill != null) detailSkill.SetAllDirty();
+        if (detailSpecial != null) detailSpecial.SetAllDirty();
+        if (detailUnlock != null) detailUnlock.SetAllDirty();
+    }
     void OnCloseDetailClicked()
     {
         // 使用GalleryManager关闭所有面板
@@ -167,9 +172,7 @@ public class MaskController : MonoBehaviour
             GalleryManager.Instance.CloseAllToHome();
     }
 
-    // ========== 模态控制方法 ==========
-
-    // 设置面具面板按钮的可用状态
+  
     void SetMaskPanelButtons(bool enabled)
     {
         foreach (Button btn in maskButtons)
@@ -185,8 +188,7 @@ public class MaskController : MonoBehaviour
             closeMaskPanelButton.interactable = enabled;
     }
 
-    // ========== 详情页功能 ==========
-
+    
     CreateMask GetMaskDataByIndex(int index)
     {
         if (MaskManager.Instance == null)

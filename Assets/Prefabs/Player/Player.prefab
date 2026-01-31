@@ -646,6 +646,8 @@ GameObject:
   - component: {fileID: 9033736620185617913}
   - component: {fileID: 1252280847990948246}
   - component: {fileID: 6477526290527070216}
+  - component: {fileID: 1274256255932117705}
+  - component: {fileID: 987895111423151198}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -811,6 +813,39 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1274256255932117705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574375929647405068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1722649c7906c42a60f1f45ab3482b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodback: {fileID: 0}
+  bloodbarquick: {fileID: 0}
+  bloodbarslow: {fileID: 0}
+  bloodtext: {fileID: 0}
+  fadetime: 0
+  SkillIcon: {fileID: 0}
+  SkillCoolDownImage: {fileID: 0}
+  skillicons: []
+--- !u!114 &987895111423151198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574375929647405068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d4648273ec45b94baa50ccaa66f7d56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masks: []
 --- !u!1 &2625891378926668947
 GameObject:
   m_ObjectHideFlags: 0

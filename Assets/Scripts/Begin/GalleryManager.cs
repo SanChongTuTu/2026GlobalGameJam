@@ -159,13 +159,39 @@ public class GalleryManager : MonoBehaviour
         
     }
 
-    
+
     void SetHomePageButtons(bool enabled)
     {
-        if (homePageButtons == null || homePageButtons.Length == 0)
+        bool hasProcessed = false;
+
+        // 1. 优先使用预设的按钮数组（如果Inspector中设置了）
+        if (homePageButtons != null && homePageButtons.Length > 0)
         {
-            // 如果没设置，自动查找主页的按钮
-            GameObject homePage = GameObject.Find("HomePage"); // 你的主页名称
+            foreach (Button btn in homePageButtons)
+            {
+                if (btn != null)
+                    btn.interactable = enabled;
+            }
+            hasProcessed = true;
+            Debug.Log($"主页按钮: {(enabled ? "启用" : "禁用")} (通过数组设置 {homePageButtons.Length} 个按钮)");
+        }
+
+        // 2. 如果没设置数组，尝试自动查找（支持多种常见命名）
+        if (!hasProcessed)
+        {
+            string[] possibleNames = new string[] { "HomePage", "MainPage", "Home", "MainMenu", "Menu", "StartPage", "Main" };
+            GameObject homePage = null;
+
+            foreach (string name in possibleNames)
+            {
+                homePage = GameObject.Find(name);
+                if (homePage != null)
+                {
+                    Debug.Log($"找到主页对象: {name}");
+                    break;
+                }
+            }
+
             if (homePage != null)
             {
                 Button[] buttons = homePage.GetComponentsInChildren<Button>(true);
@@ -175,18 +201,11 @@ public class GalleryManager : MonoBehaviour
                         btn.interactable = enabled;
                 }
             }
-        }
-        else
-        {
-            // 使用预设的按钮数组
-            foreach (Button btn in homePageButtons)
+            else
             {
-                if (btn != null)
-                    btn.interactable = enabled;
+                Debug.LogWarning("未找到主页对象！请确保主页GameObject名为 'HomePage' 或在Inspector中设置 homePageButtons 数组");
             }
         }
-
-        Debug.Log($"主页按钮: {(enabled ? "启用" : "禁用")}");
     }
 
     // 检查是否有面板打开

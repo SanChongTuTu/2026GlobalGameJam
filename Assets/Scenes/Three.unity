@@ -718,13 +718,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3786636527447810550, guid: 8f48a1760d2182c4aad3fdd699b78c99, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786636527447810550, guid: 8f48a1760d2182c4aad3fdd699b78c99, type: 3}
+      propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5945100138196005561, guid: 8f48a1760d2182c4aad3fdd699b78c99, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.55
+      value: 5.59
       objectReference: {fileID: 0}
     - target: {fileID: 5945100138196005561, guid: 8f48a1760d2182c4aad3fdd699b78c99, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.05
+      value: 1.38
       objectReference: {fileID: 0}
     - target: {fileID: 5945100138196005561, guid: 8f48a1760d2182c4aad3fdd699b78c99, type: 3}
       propertyPath: m_LocalPosition.z
@@ -756,6 +764,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5945100138196005561, guid: 8f48a1760d2182c4aad3fdd699b78c99, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5945100138196005561, guid: 8f48a1760d2182c4aad3fdd699b78c99, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6217810166906804848, guid: 8f48a1760d2182c4aad3fdd699b78c99, type: 3}
@@ -1321,6 +1333,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1252280847990948246, guid: 681f92dbaf68e8e4dae4bdf3a8dd3327, type: 3}
+      propertyPath: jumpHeight
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1574375929647405068, guid: 681f92dbaf68e8e4dae4bdf3a8dd3327, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3847,6 +3863,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72f2f0dfe64c1b44592ef71ab0a566f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastPlayerPosition: {x: 0, y: 0, z: 0}
+  currentSceneName: 
   player: {fileID: 551572003}
   playerType: 2
   health: 100
@@ -5531,11 +5549,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 858538284978721278, guid: 7cd63613819897546a0e63fd7ff84322, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.76
+      value: -21.72
       objectReference: {fileID: 0}
     - target: {fileID: 858538284978721278, guid: 7cd63613819897546a0e63fd7ff84322, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.48
+      value: 7.06
       objectReference: {fileID: 0}
     - target: {fileID: 858538284978721278, guid: 7cd63613819897546a0e63fd7ff84322, type: 3}
       propertyPath: m_LocalPosition.z
