@@ -135,7 +135,8 @@ public class Snake : Monster
         float moveDir = player.position.x > transform.position.x ? 1 : -1;
         if (effects.Contains(effects.Find(e => e.effectname == "Slow"))) moveDir *= 0.5f;
         rb.velocity = new Vector2(moveDir * speed * 1f, rb.velocity.y);
-        FaceTo(dirX);
+        float rawDeltaX = player.position.x - transform.position.x;
+        FaceTo(rawDeltaX);
     }
 
     protected override void AttackState(float dist)

@@ -67,6 +67,7 @@ public abstract class Monster : MonoBehaviour
     public float wallCheckDist = 1f; // 前方探墙距离
     public float ledgeCheckDist = 1f;// 斜下探空缺距离
     public float downCheckDist = 1f;// 下方空缺距离
+    public float heightDetectRange = 2.5f;   // 垂直视野 2.5 米
     [Header("射线起点偏移")]
     public Vector2 rayStartOffset = new Vector2(0, 0.15f); // x=左右，y=上下
     [Header("击飞")]
@@ -75,6 +76,7 @@ public abstract class Monster : MonoBehaviour
     public bool canbeHitStun = true;    // 是否可以硬直
 
     protected float hitStunTimer = 0f;  // 剩余硬直
+    protected float freezeTimer = 0f;
 
     private Image bloodback;
     private Image bloodquick;
@@ -160,26 +162,59 @@ public abstract class Monster : MonoBehaviour
 
         if(effects.Contains(effects.Find(e => e.effectname == "Freeze")) && canbeHitStun)
         {
+            if(monsterdata.type != CreateMonster.MonsterType.boss)
+            transform.GetChild(2).gameObject.SetActive(true);
             rb.velocity = new Vector2(0, rb.velocity.y);
-            hitStunTimer=effects.Find(e => e.effectname == "Freeze").time;
+            freezeTimer =effects.Find(e => e.effectname == "Freeze").time;
+        }
+        else
+        {
+            if (monsterdata.type != CreateMonster.MonsterType.boss)
+                transform.GetChild(2).gameObject.SetActive(false);
+        }
+
+        if (freezeTimer > 0 && canbeHitStun)
+        {
+            if (_isDead) return;
+            freezeTimer -= Time.deltaTime;
+            anim.speed = 0f;
+            AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+            anim.Play(info.shortNameHash, 0, info.normalizedTime);
+            if (freezeTimer <= 0)
+            {
+                freezeTimer = 0;
+                anim.speed = 1;
+            }
+            return;
         }
 
         if (hitStunTimer>0&&canbeHitStun)
         {
             if(_isDead) return;
             hitStunTimer -= Time.deltaTime;
+            if(hitStunTimer>0.15f)
+                if (monsterdata.type != CreateMonster.MonsterType.boss)
+                    transform.GetChild(3).gameObject.SetActive(true);
             anim.speed = 0f;
             AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
             anim.Play(info.shortNameHash, 0, info.normalizedTime);   
             if (hitStunTimer <= 0)
             {
+                if (monsterdata.type != CreateMonster.MonsterType.boss)
+                    transform.GetChild(3).gameObject.SetActive(false);
                 hitStunTimer = 0;
                 anim.speed = 1;
             }
             return;  
         }
 
-        float distToPlayer = Vector2.Distance(transform.position, player.position);
+        float distToPlayer = Vector2.Distance(
+                        new Vector2(transform.position.x, 0),
+                        new Vector2(player.position.x, 0));
+
+        float yDelta = Mathf.Abs(transform.position.y - player.position.y);
+        if (yDelta > monsterdata.heightDetectRange)          // 新增字段
+            distToPlayer = float.MaxValue;
 
         switch (currentState)
         {
@@ -200,7 +235,7 @@ public abstract class Monster : MonoBehaviour
 
     public abstract void Attack(Collider2D other,int id);//������󷽷��Ǵ�������������õ�
 
-    public void TakeDamage(float amount, float? hitstuntime = 0, Vector2? knockBackDir = null)
+    public void TakeDamage(float amount, float? hitstuntime = 0.15f, Vector2? knockBackDir = null)
     {
         if (_isDead) return;
 
@@ -278,6 +313,8 @@ public abstract class Monster : MonoBehaviour
 
     protected void FaceTo(float dirX)
     {
+        // 死区：方向绝对值小于 0.2 时认为“基本正面”，不翻转
+        if (Mathf.Abs(dirX) < 0.2f) return;
         if (dirX > 0 && !facingRight)
         {
             facingRight = true;

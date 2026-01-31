@@ -182,6 +182,7 @@ public class BasicControl : MonoBehaviour
 
     void SpawnGhost()
     {
+        if (GameDataManager.Instance.playerType != GameDataManager.Type.wind) return;
         foreach (var sr in renderers)
         {
             GameObject ghost = new GameObject("Ghost");
@@ -203,11 +204,14 @@ public class BasicControl : MonoBehaviour
 
     IEnumerator FadeAndDestroy(GameObject ghost, SpriteRenderer gSr)
     {
+        if (GameDataManager.Instance.playerType != GameDataManager.Type.wind) yield break;
+        float fade = GetComponentInChildren<WindMask>().fadeSpeed;
         Color col = gSr.color;
         while (col.a > 0)
         {
+            if (GameDataManager.Instance.playerType != GameDataManager.Type.wind) yield break;
             if (gSr == null) yield break;
-            col.a -= GetComponentInChildren<WindMask>() .fadeSpeed * Time.deltaTime;
+            col.a -= fade* Time.deltaTime;
             gSr.color = col;
             yield return null;
         }
@@ -223,5 +227,14 @@ public class BasicControl : MonoBehaviour
     public void TakeDamage(float damage)
     {
         GameDataManager.Instance.health -= damage;
+        StartCoroutine(Hurt());
+    }
+
+    IEnumerator Hurt()
+    {
+        render.color = Color.red;
+        yield return new WaitForSeconds(0.15f);
+        render.color = Color.white;
+        yield break;
     }
 }

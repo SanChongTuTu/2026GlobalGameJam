@@ -112,7 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 6
   lifeTime: 3
-  skillshuttime: 2.5
+  skillshuttime: 3
   explosionDamageMultiplier: 0.6
   ifpenetratewall: 0
   explosionRadius: 2

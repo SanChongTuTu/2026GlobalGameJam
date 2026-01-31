@@ -50,10 +50,10 @@ public class WindMask : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.L) && cooldownTimer == 0)
+        if (Input.GetKeyDown(KeyCode.L) && cooldownTimer == 0&&PlayerInfoManager.Instance.saveaimtime<=0 && !GameDataManager.Instance.banL)
         {
             cooldownTimer = skillCooldown;
-            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown);
+            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown,skillCooldown + 5);
             player.GetComponent<BasicControl>().StartTrail();
             waittime = keeptime;
             strength = true;

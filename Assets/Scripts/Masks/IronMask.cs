@@ -44,12 +44,12 @@ public class IronMask : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.L)&&cooldownTimer==0)
+        if (Input.GetKeyDown(KeyCode.L)&&cooldownTimer==0 && PlayerInfoManager.Instance.saveaimtime <= 0 && !GameDataManager.Instance.banL)
         {
             player.GetComponent<BasicControl>().attacking = true;
             player.GetComponent<Animator>().SetTrigger("HitAttack");
             cooldownTimer = skillCooldown;
-            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown);
+            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown, skillCooldown+5);
             StartCoroutine(DashAttack());
 
         }
@@ -105,7 +105,7 @@ public class IronMask : MonoBehaviour
 
             var monster = col.GetComponent<Monster>();
             if (monster != null)
-                monster.TakeDamage(GameDataManager.Instance.damage, dashTime, new Vector2(dir * knockBack, UnityEngine.Random.Range(3,6)));
+                monster.TakeDamage(1, dashTime, new Vector2(dir * knockBack, UnityEngine.Random.Range(3,6)));
         }
 
         // 4. ”≤÷±£®∫Û“°£©

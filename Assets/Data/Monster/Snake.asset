@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monstername: "\u86C7"
   type: 0
-  health: 100
-  damage: 10
+  health: 20
+  damage: 8
   speed: {x: 2.5, y: 4.5}
   idleTime: 1.5
   detectRange: 5
   attackRange: 1.5
+  heightDetectRange: 2.5
   attackCooldown: 0.8
   patrolDuration: 2
   canBeKnocked: 1

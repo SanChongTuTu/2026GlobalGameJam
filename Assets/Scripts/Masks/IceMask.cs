@@ -59,13 +59,13 @@ public class IceMask : MonoBehaviour
             SimpleAttack();
         }
 
-        if (Input.GetKeyDown(KeyCode.L)&&cooldownTimer==0)
+        if (Input.GetKeyDown(KeyCode.L)&&cooldownTimer==0 && PlayerInfoManager.Instance.saveaimtime <= 0 && !GameDataManager.Instance.banL)
         {
             player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             player.GetComponent<BasicControl>().StopAction(duration);
             model.SetActive(true);
             cooldownTimer = skillCooldown;
-            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown);
+            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown, skillCooldown + 5);
             Resetskill();
             StartCoroutine(CastLaser());
         }
@@ -93,6 +93,8 @@ public class IceMask : MonoBehaviour
     {
         GameObject fb = Instantiate(iceballPrefab, player.position, player.rotation);
         Rigidbody2D rb = fb.GetComponent<Rigidbody2D>();
+        Transform chi = fb.transform;
+        chi.localScale = new Vector3(Mathf.Sign(player.localScale.x) * Mathf.Abs(chi.localScale.x), chi.localScale.y, chi.localScale.z);
         rb.velocity = player.right * launchSpeed * Mathf.Sign(player.localScale.x);  
     }
 
@@ -106,6 +108,23 @@ public class IceMask : MonoBehaviour
         line.material = laserMaterial;
         line.startWidth = lineWidth;
         line.endWidth = lineWidth;
+    }
+
+    public void EndLine()
+    {
+        durationtime = 0f;
+
+        StopCoroutine(CastLaser());
+        StopCoroutine(DrawLaser());
+
+        if (line != null)
+        {
+            line.positionCount = 0;   // 先清空顶点
+            Destroy(line);            // 再销毁组件
+            line = null;              // 置空防野指针
+        }
+
+        model.SetActive(false);
     }
 
     IEnumerator CastLaser()
@@ -150,12 +169,12 @@ public class IceMask : MonoBehaviour
                 Vector3 pos = start + dir * d;
                 points.Add(pos);
 
-                // 障碍物检测（无法穿透）
-                Collider2D obstacle = Physics2D.OverlapCircle(pos, sampleStep * 0.5f, obstacleLayer);
-                if (obstacle != null)
-                {
-                    break; // 遇到障碍物，停止射线
-                }
+                //// 障碍物检测（无法穿透）
+                //Collider2D obstacle = Physics2D.OverlapCircle(pos, sampleStep * 0.5f, obstacleLayer);
+                //if (obstacle != null)
+                //{
+                //    break; // 遇到障碍物，停止射线
+                //}
 
                 foreach (var hit in Physics2D.OverlapCircleAll(pos, sampleStep * 0.5f, targetLayer))
                 {

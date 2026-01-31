@@ -43,10 +43,10 @@ public class FireMask : MonoBehaviour
             SimpleAttack();
         }
 
-        if (Input.GetKeyDown(KeyCode.L)&&cooldownTimer==0)
+        if (Input.GetKeyDown(KeyCode.L)&&cooldownTimer==0 && PlayerInfoManager.Instance.saveaimtime <= 0 && !GameDataManager.Instance.banL)
         {
             cooldownTimer = skillCooldown;
-            PlayerInfoManager.Instance?.SkillCoolDown(skillCooldown);
+            PlayerInfoManager.Instance?.SkillCoolDown(skillCooldown, skillCooldown + 5);
             SpawnOrbs();
         }
 
@@ -79,7 +79,7 @@ public class FireMask : MonoBehaviour
     {
         GameObject fb = Instantiate(fireballPrefab, player.position, player.rotation);
         Rigidbody2D rb = fb.transform.GetComponent<Rigidbody2D>();
-        Transform chi = fb.transform.GetChild(0);
+        Transform chi = fb.transform;
         chi.localScale = new Vector3(Mathf.Sign(player.localScale.x) * Mathf.Abs(chi.localScale.x), chi.localScale.y, chi.localScale.z);
         rb.velocity = player.right * launchSpeed * Mathf.Sign(player.localScale.x);  
     }

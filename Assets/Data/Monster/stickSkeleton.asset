@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monstername: "\u6CD5\u6756\u9AB7\u9AC5"
   type: 0
-  health: 100
-  damage: 10
-  speed: 10
+  health: 20
+  damage: 5
+  speed: {x: 1.5, y: 3}
   idleTime: 2
-  detectRange: 10
-  attackRange: 1.5
-  attackCooldown: 2
+  detectRange: 9
+  attackRange: 7
+  heightDetectRange: 2.5
+  attackCooldown: 1.5
   patrolDuration: 2
+  canBeKnocked: 1
+  canbeHitStun: 1

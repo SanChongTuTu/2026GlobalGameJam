@@ -134,7 +134,8 @@ public class SwordSkeleton : Monster
         float moveDir = player.position.x > transform.position.x ? 1 : -1;
         if (effects.Contains(effects.Find(e => e.effectname == "Slow"))) moveDir *= 0.5f;
         rb.velocity = new Vector2(moveDir * speed * 1f, rb.velocity.y);
-        FaceTo(dirX);
+        float rawDeltaX = player.position.x - transform.position.x;
+        FaceTo(rawDeltaX);
     }
 
     protected override void AttackState(float dist)
@@ -148,7 +149,7 @@ public class SwordSkeleton : Monster
             float dirX = player.position.x > transform.position.x ? 1 : -1;
             float moveDir = player.position.x > transform.position.x ? 1 : -1;
             if (effects.Contains(effects.Find(e => e.effectname == "Slow"))) moveDir *= 0.5f;
-            rb.velocity = new Vector2(moveDir * speed * 0.2f, rb.velocity.y);
+            rb.velocity = new Vector2(moveDir * speed * 0.1f, rb.velocity.y);
             FaceTo(dirX);
             anim.SetTrigger("Attack");//播放攻击动画,打开触发器，如果触发执行上面的Attack函数
             if (dist <= monsterdata.attackRange)

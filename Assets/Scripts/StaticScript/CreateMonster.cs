@@ -27,6 +27,8 @@ public class CreateMonster : ScriptableObject
     public float detectRange = 10f;
     [Header("开始攻击范围")]
     public float attackRange = 1.5f;
+    [Header("垂直视野")]
+    public float heightDetectRange = 2.5f;   
     [Header("攻击间隔")]
     public float attackCooldown = 2f;
     [Header("单次巡逻最长时长")]
