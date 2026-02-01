@@ -26,7 +26,7 @@ public class Scenemanager : MonoBehaviour
     public enum NowScene
     {
         Start = 0,
-        SkillTree = 1,
+        Zero = 1,
         Game1 = 2,
         Game2=3,
         Game3=4,
@@ -42,6 +42,19 @@ public class Scenemanager : MonoBehaviour
     public float fadetime;
     [Header("µ­³öÊ±¼ä")]
     public float fadeouttime;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -92,6 +105,11 @@ public class Scenemanager : MonoBehaviour
         }
         canvasGroup.alpha = 0;
         sceneshader.SetActive(false);
+
+        if (nowscene != NowScene.Start&&nowscene!=NowScene.Zero)
+        {
+            ChangeMaskManager.Instance.ChangeMask();
+        }
         yield break;
     }
 }

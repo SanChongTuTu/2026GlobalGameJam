@@ -46,7 +46,7 @@ public class DeathMask : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J)&&!GameDataManager.Instance.banJ)
         {
             SimpleAttack();
         }

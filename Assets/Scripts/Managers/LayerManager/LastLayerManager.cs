@@ -1,0 +1,50 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LastLayerManager : LayerManager
+{
+    void Start()
+    {
+        Failure.SetActive(false);
+        Next.SetActive(false);
+        PlayerPrefs.SetInt("Mask1", 1);
+        PlayerPrefs.SetInt("Mask2", 1);
+        PlayerPrefs.SetInt("Mask3", 1);
+        PlayerPrefs.SetInt("Mask4", 1);
+        PlayerPrefs.SetInt("Mask5", 1);
+        PlayerPrefs.SetInt("Mask6", 1);
+        PlayerPrefs.Save();
+    }
+
+    public void ChangeStart()
+    {
+
+    }
+
+
+    void Update()
+    {
+
+        if (GameDataManager.Instance.health <= 0)
+        {
+            GameDataManager.Instance.banL = true;
+            GameDataManager.Instance.banE = true;
+            GameDataManager.Instance.banJ = true;
+            GameDataManager.Instance.player.GetComponent<BasicControl>().enabled = false;
+            GameDataManager.Instance.player.GetComponent<JumpController>().enabled = false;
+            finish.GetComponent<Animator>().SetTrigger("Lose");
+            return;
+        }
+
+        if (FindObjectOfType<Monster>() == null&&startmonster)
+        {
+            GameDataManager.Instance.banL = true;
+            GameDataManager.Instance.banE = true;
+            GameDataManager.Instance.banJ = true;
+            GameDataManager.Instance.player.GetComponent<BasicControl>().enabled = false;
+            GameDataManager.Instance.player.GetComponent<JumpController>().enabled = false;
+            finish.GetComponent<Animator>().SetTrigger("Next");
+        }
+    }
+}

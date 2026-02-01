@@ -8,6 +8,7 @@ public class ChangeMaskManager : MonoBehaviour
     public GameObject allpanel;
     public UnityEngine.UI.Button[] ChangeBtn = new UnityEngine.UI.Button[6];
     public Button ok;
+    public Button Home;
 
     Image[] frame=new Image[6];
     Image[] question=new Image[6];
@@ -28,27 +29,33 @@ public class ChangeMaskManager : MonoBehaviour
             return instance;
         }
     }
-    
 
-    void Start()
+    private void Awake()
     {
+        Home.onClick.AddListener(() => {
+            GameDataManager.Instance.banL = true;
+            GameDataManager.Instance.banE = true;
+            GameDataManager.Instance.banJ = true;
+            GameDataManager.Instance.player.GetComponent<BasicControl>().enabled = false;
+            GameDataManager.Instance.player.GetComponent<JumpController>().enabled = false;
+            LayerManager.Instance.enabled = false;
+            Scenemanager.Instance.ToScene(0);
+        });
         allpanel.SetActive(false);
-        for(int i = 0; i <= 5; i++)
+        for (int i = 0; i <= 5; i++)
         {
             frame[i] = ChangeBtn[i].transform.GetChild(3).GetComponent<Image>();
             question[i] = ChangeBtn[i].transform.GetChild(2).GetComponent<Image>();
             question[i].gameObject.SetActive(false);
             frame[i].color = Color.white;
         }
-
         ok.interactable = false;
-
         for (int i = 0; i <= 5; i++)
         {
             int savei = i;
             ChangeBtn[savei].onClick.AddListener(() =>
             {
-                for(int j = 0; j <= 5; j++)
+                for (int j = 0; j <= 5; j++)
                 {
                     if (j == savei)
                     {
@@ -68,7 +75,7 @@ public class ChangeMaskManager : MonoBehaviour
                     PlayerInfoManager.Instance.skilltips.SetActive(true);
                     foreach (GameObject go in FindObjectsOfType<GameObject>())
                     {
-                        if (go.name == "Fireball(Clone)"|| go.name == "Ghost")
+                        if (go.name == "Fireball(Clone)" || go.name == "Ghost")
                             Destroy(go);
                     }
                     if (GameDataManager.Instance.playerType == GameDataManager.Type.ice)
@@ -82,6 +89,11 @@ public class ChangeMaskManager : MonoBehaviour
                 ok.interactable = true;
             });
         }
+    }
+
+    void Start()
+    {
+
     }
 
     void Update()

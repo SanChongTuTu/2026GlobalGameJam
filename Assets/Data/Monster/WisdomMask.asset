@@ -18,7 +18,7 @@ MonoBehaviour:
   damage: 10
   speed: {x: 1.2, y: 2}
   idleTime: 2.5
-  detectRange: 99
+  detectRange: 25
   attackRange: 11
   heightDetectRange: 2.5
   attackCooldown: 3

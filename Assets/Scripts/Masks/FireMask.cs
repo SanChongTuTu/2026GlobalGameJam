@@ -36,7 +36,7 @@ public class FireMask : MonoBehaviour
     void Update()
     {
         bool attacking = player.GetComponent<BasicControl>().attacking;
-        if (Input.GetKeyDown(KeyCode.J) && !attacking)
+        if (Input.GetKeyDown(KeyCode.J) && !attacking && !GameDataManager.Instance.banJ)
         {
             atktime = simpleattackinterval;
             player.GetComponent<BasicControl>().attacking = true;

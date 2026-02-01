@@ -53,6 +53,7 @@ public class GameDataManager : MonoBehaviour
 
     public bool banE = false;
     public bool banL = false;
+    public bool banJ = false;
 
     float savespeed;//��¼��ǰ�ٶ�
     float savedamage;
