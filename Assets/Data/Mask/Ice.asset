@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maskName: 3
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 2888f18575d284a448ffb6883d05ee7f, type: 3}
   maskPrefab: {fileID: 0}
   attackBonus: 4
   healthBonus: 0
