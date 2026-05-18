@@ -12,8 +12,8 @@ public class VolumeUI : MonoBehaviour
     [Header("音乐音量控制")]
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Button musicMuteButton;
-    [SerializeField] private Image musicMuteIconOn;    // 音量开启图标
-    [SerializeField] private Image musicMuteIconOff;   // 静音图标
+    [SerializeField] public Image musicMuteIconOn;    // 音量开启图标
+    [SerializeField] public Image musicMuteIconOff;   // 静音图标
 
     [Header("音效音量控制")]
     [SerializeField] private Slider sfxSlider;
@@ -34,6 +34,11 @@ public class VolumeUI : MonoBehaviour
 
         InitializeUI();
         LoadCurrentSettings();
+    }
+
+    private void Update()
+    {
+
     }
 
     void InitializeUI()
@@ -117,6 +122,7 @@ public class VolumeUI : MonoBehaviour
     {
         if (volumeManager != null)
         {
+            AudioManager.Instance.bgmVolume = musicSlider.maxValue * musicSlider.value;
             if (volumeManager.IsMusicMuted() && value > 0.01f)
             {
                 volumeManager.SetMusicVolume(value);
@@ -174,7 +180,7 @@ public class VolumeUI : MonoBehaviour
             musicSlider.interactable = true;
             musicSlider.value = volumeManager.GetMusicVolume();
         }
-
+        AudioManager.Instance.bgmVolume = volumeManager.GetMusicVolume();
         bool isMuted = volumeManager.IsMusicMuted();
         if (musicMuteIconOn != null)
             musicMuteIconOn.gameObject.SetActive(!isMuted);

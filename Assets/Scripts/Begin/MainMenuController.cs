@@ -43,7 +43,7 @@ public class MainMenuController : MonoBehaviour
 
     void StartGame()
     {
-        SceneManager.LoadScene("TestLevel1");
+        
     }
 
     void OpenTutorial()
@@ -133,10 +133,6 @@ public class MainMenuController : MonoBehaviour
 
     void QuitGame()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
         Application.Quit();
-#endif
     }
 }

@@ -99,12 +99,12 @@ public class CreateMask : ScriptableObject
         prefabInfo.hasCollider = maskPrefab.GetComponent<Collider2D>() != null;
         prefabInfo.hasRigidbody = maskPrefab.GetComponent<Rigidbody2D>() != null;
 
-        // 获取资源路径（编辑器模式下）
-#if UNITY_EDITOR
-        prefabInfo.assetPath = UnityEditor.AssetDatabase.GetAssetPath(maskPrefab);
-#endif
+//        // 获取资源路径（编辑器模式下）
+//#if UNITY_EDITOR
+//        prefabInfo.assetPath = UnityEditor.AssetDatabase.GetAssetPath(maskPrefab);
+//#endif
 
-        Debug.Log($"成功读取面具预制体: {maskPrefab.name}");
+//        Debug.Log($"成功读取面具预制体: {maskPrefab.name}");
     }
 
     // 获取完整的面具信息（用于图鉴显示）

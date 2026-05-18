@@ -71,6 +71,9 @@ public class ChangeMaskManager : MonoBehaviour
                 ok.onClick.AddListener(() =>
                 {
                     Time.timeScale = 1;
+                    GameDataManager.Instance.banE = false;
+                    GameDataManager.Instance.banJ = false;
+                    GameDataManager.Instance.player.GetComponent<BasicControl>().attacking = false;
                     PlayerInfoManager.Instance.infos.SetActive(true);
                     PlayerInfoManager.Instance.skilltips.SetActive(true);
                     foreach (GameObject go in FindObjectsOfType<GameObject>())

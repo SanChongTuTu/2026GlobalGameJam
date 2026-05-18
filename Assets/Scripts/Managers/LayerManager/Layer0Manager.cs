@@ -10,6 +10,22 @@ public class Layer0Manager : LayerManager
         Next.SetActive(false);
         PlayerInfoManager.Instance.infos.SetActive(false);
         PlayerInfoManager.Instance.skilltips.SetActive(false);
+        foreach (var btn in homes)
+        {
+            btn.onClick.AddListener(() => Scenemanager.Instance.ToScene(0));
+        }
+        foreach (var btn in nexts)
+        {
+            btn.onClick.AddListener(() => Scenemanager.Instance.ToScene(2));
+        }
+        restart.onClick.AddListener(() => Scenemanager.Instance.ToScene(1));
+        foreach (var drops in dropmasks)
+        {
+            if (PlayerPrefs.GetInt($"Mask{drops.maskid}", 0) == 1)
+            {
+                Destroy(drops.gameObject);
+            }
+        }
     }
 
 
@@ -35,6 +51,8 @@ public class Layer0Manager : LayerManager
             GameDataManager.Instance.player.GetComponent<BasicControl>().enabled = false;
             GameDataManager.Instance.player.GetComponent<JumpController>().enabled = false;
             finish.GetComponent<Animator>().SetTrigger("Next");
+            PlayerPrefs.SetInt("Layer2", 1);
+            PlayerPrefs.Save();
         }
     }
 }

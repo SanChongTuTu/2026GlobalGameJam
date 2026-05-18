@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monstername: "\u9ED1\u6697\u9762\u5177\u4EBA"
   type: 2
-  health: 400
-  damage: 10
+  icon: {fileID: 21300000, guid: 6bc90a4487c7499458b74273d6d1fc6e, type: 3}
+  health: 500
+  damage: 12
   speed: {x: 1.2, y: 2}
   idleTime: 2.5
   detectRange: 25

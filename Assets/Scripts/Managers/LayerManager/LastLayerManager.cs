@@ -8,13 +8,29 @@ public class LastLayerManager : LayerManager
     {
         Failure.SetActive(false);
         Next.SetActive(false);
-        PlayerPrefs.SetInt("Mask1", 1);
-        PlayerPrefs.SetInt("Mask2", 1);
-        PlayerPrefs.SetInt("Mask3", 1);
-        PlayerPrefs.SetInt("Mask4", 1);
-        PlayerPrefs.SetInt("Mask5", 1);
-        PlayerPrefs.SetInt("Mask6", 1);
-        PlayerPrefs.Save();
+        //PlayerPrefs.SetInt("Mask1", 1);
+        //PlayerPrefs.SetInt("Mask2", 1);
+        //PlayerPrefs.SetInt("Mask3", 1);
+        //PlayerPrefs.SetInt("Mask4", 1);
+        //PlayerPrefs.SetInt("Mask5", 1);
+        //PlayerPrefs.SetInt("Mask6", 1);
+        //PlayerPrefs.Save();
+        foreach (var btn in homes)
+        {
+            btn.onClick.AddListener(() => Scenemanager.Instance.ToScene(0));
+        }
+        foreach (var btn in nexts)
+        {
+
+        }
+        restart.onClick.AddListener(() => Scenemanager.Instance.ToScene(5));
+        foreach (var drops in dropmasks)
+        {
+            if (PlayerPrefs.GetInt($"Mask{drops.maskid}", 0) == 1)
+            {
+                Destroy(drops.gameObject);
+            }
+        }
     }
 
     public void ChangeStart()
