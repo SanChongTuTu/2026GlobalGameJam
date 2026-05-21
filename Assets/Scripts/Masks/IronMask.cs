@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class IronMask : MonoBehaviour
@@ -36,7 +35,7 @@ public class IronMask : MonoBehaviour
     void Update()
     {
         bool attacking = player.GetComponent<BasicControl>().attacking;
-        if (Input.GetKeyDown(KeyCode.J) && !attacking)
+        if (Input.GetKeyDown(KeyCode.J) && !attacking && !GameDataManager.Instance.banJ)
         {
             player.GetComponent<BasicControl>().attacking = true;
             SimpleAttack();

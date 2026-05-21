@@ -233,7 +233,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  jumpVelocity: 8
+  jumpVelocity: 10
   wallCheckDist: 1
   ledgeCheckDist: 1.4
   downCheckDist: 1.2

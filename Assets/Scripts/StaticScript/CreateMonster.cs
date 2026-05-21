@@ -15,6 +15,8 @@ public class CreateMonster : ScriptableObject
     public string monstername;
     [Header("怪物类别")]
     public MonsterType type;
+    [Header("怪物头像")]
+    public Sprite icon;
     [Header("生命")]
     public float health = 100f;
     [Header("攻击")]

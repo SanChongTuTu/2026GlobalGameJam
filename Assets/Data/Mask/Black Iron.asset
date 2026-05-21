@@ -16,13 +16,13 @@ MonoBehaviour:
   description: 
   icon: {fileID: 21300000, guid: 524f279dcc448c84a8ed1b45e651ea7a, type: 3}
   maskPrefab: {fileID: 0}
-  attackBonus: 4
+  attackBonus: 5
   healthBonus: 0
   speedMultiplier: 1
   canDoubleJump: 0
-  normalAttackDesc: "\u8FD1\u6218\uFF0C\u4E2D\u8DDD\u79BB\u653B\u51FB\r\n\u653B\u51FB\u529B+4\r\n"
-  skillDesc: "\u5411\u524D\u523A\u51FA\uFF0C\u51FB\u9000\u653B\u51FB\u8303\u56F4\u5185\u7684\u654C\u4EBA\uFF0C\u9020\u6210\u4E00\u5B9A\u4F24\u5BB3"
-  skillCooldown: 0
+  normalAttackDesc: "\u5411\u524D\u6325\u51FA\u5B9D\u5251\uFF0C\u5BF9\u8303\u56F4\u5185\u7684\u654C\u4EBA\u9020\u62105\u70B9\u4F24\u5BB3\u3002"
+  skillDesc: "\u7528\u529B\u5411\u524D\u523A\u51FA\u5B9D\u5251\uFF0C\u5BF9\u66F4\u5927\u8303\u56F4\u5185\u7684\u654C\u4EBA\u9020\u62106\u70B9\u4F24\u5BB3\uFF0C\u5E76\u51FB\u9000\u654C\u4EBA\uFF0C\u9020\u6210\u77ED\u6682\u50F5\u76F4\u3002 "
+  skillCooldown: 20
   specialEffectDesc: "\u65E0"
   unlockCondition: "\u65E0"
   prefabInfo:

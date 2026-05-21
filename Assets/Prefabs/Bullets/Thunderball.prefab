@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 3
-  lifeTime: 3
+  lifeTime: 1.5
   shuttime: 0.5
   ifpenetrate: 1
   ifpenetratewall: 0

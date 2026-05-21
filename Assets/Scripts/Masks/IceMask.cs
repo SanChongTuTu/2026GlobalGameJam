@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class IceMask : MonoBehaviour
@@ -52,7 +51,7 @@ public class IceMask : MonoBehaviour
     void Update()
     {
         bool attacking = player.GetComponent<BasicControl>().attacking;
-        if (Input.GetKeyDown(KeyCode.J) && !attacking && durationtime == 0)
+        if (Input.GetKeyDown(KeyCode.J) && !attacking && durationtime == 0 && !GameDataManager.Instance.banJ)
         {
             atktime = simpleattackinterval;
             player.GetComponent<BasicControl>().attacking = true;
