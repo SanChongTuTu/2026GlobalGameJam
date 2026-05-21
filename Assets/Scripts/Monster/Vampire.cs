@@ -64,6 +64,7 @@ public class Vampire : Monster
 
     public override void Attack(Collider2D other, int id)
     {
+        Debug.Log("??");
         if (other.CompareTag("Player"))
         {
             BasicControl playerControl = other.GetComponent<BasicControl>();
@@ -85,7 +86,7 @@ public class Vampire : Monster
                 wasCrit = true;
                 Debug.Log("Critical Hit!");
             }
-
+            Debug.Log("?");
             playerControl.TakeDamage(finalDamage);
             
             if (id == 0)
@@ -152,7 +153,8 @@ public class Vampire : Monster
             ReturnToOrigin();
             return;
         }
-        
+        if (!openblood)
+            blood.SetActive(false);
         rb.velocity = new Vector2(Mathf.Cos(Time.time) * 1.5f, Mathf.Sin(Time.time) * 1.5f);
 
         if (dist < monsterdata.detectRange) currentState = State.Chase;
@@ -192,6 +194,7 @@ public class Vampire : Monster
 
     protected override void ChaseState(float dist)
     {
+        blood.SetActive(true);
         if (_isReturning)
         {
             ReturnToOrigin();
@@ -212,6 +215,7 @@ public class Vampire : Monster
 
     protected override void AttackState(float dist)
     {
+        blood.SetActive(true);
         attackTimer += Time.deltaTime;
         if (attackTimer >= monsterdata.attackCooldown)
         {
@@ -240,8 +244,20 @@ public class Vampire : Monster
         {
             currentState = State.Chase;
         }
+        float rawDeltaX = player.position.x - transform.position.x;
+        FaceTo(rawDeltaX);
     }
-    
+
+    public void StartMetee(int id)
+    {
+        monsterattackrange[id].enabled = true;
+    }
+
+    public void FinishMetee(int id)
+    {
+        monsterattackrange[id].enabled = false;
+    }
+
     private void ReturnToOrigin()
     {
         Vector2 direction = ((Vector2)startPos - (Vector2)transform.position).normalized;
@@ -260,7 +276,7 @@ public class Vampire : Monster
     {
         if (_isDead) return;
         _isDead = true;
-    
+        blood.SetActive(false);
         rb.velocity = Vector2.zero;
         rb.gravityScale = 1;
     

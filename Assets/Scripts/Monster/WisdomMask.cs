@@ -260,7 +260,7 @@ public class WisdomMask : Monster
 
     public void SummonRandom()
     {
-        int id = Random.Range(1,4);
+        int id = Random.Range(1,7);
         GameObject fb = Instantiate(bullet[id], transform.position, transform.rotation);
         Rigidbody2D rb = fb.transform.GetComponent<Rigidbody2D>();
         Transform chi = fb.transform;

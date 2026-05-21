@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 858538284978721278}
   - component: {fileID: 5957464183023461099}
   - component: {fileID: 2101259102024149887}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,7 +94,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 3188583080195410913}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: e193a83a44ba45242abd78a36de60c93, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

@@ -53,6 +53,7 @@ public class GameDataManager : MonoBehaviour
 
     public bool banE = false;
     public bool banL = false;
+    public bool banJ = false;
 
     float savespeed;//��¼��ǰ�ٶ�
     float savedamage;
@@ -102,26 +103,30 @@ public class GameDataManager : MonoBehaviour
 
         if(playerType == Type.wind)
         {
-            WindMask wind = player.GetComponentInChildren<WindMask>();
-            bool strength = wind.strength;
-            if (strength)
+            if (player.GetComponentInChildren<WindMask>() != null)
             {
-                moveSpeed = savespeed * 1.8f;
-                damage = savedamage*1.5f;
-                attackCooldown = saveattackcooldown * 0.5f;
+                WindMask wind = player.GetComponentInChildren<WindMask>();
+                bool strength = wind.strength;
+                if (strength)
+                {
+                    moveSpeed = savespeed * 1.8f;
+                    damage = savedamage * 1.5f;
+                    attackCooldown = saveattackcooldown * 0.5f;
+                }
+                else
+                {
+                    moveSpeed = savespeed * 1.2f;
+                    damage = savedamage;
+                    attackCooldown = saveattackcooldown;
+                }
+                player.GetComponent<JumpController>().jumptime = 2;
             }
-            else
-            {
-                moveSpeed = savespeed * 1.2f;
-                damage = savedamage;
-                attackCooldown = saveattackcooldown;
-            }
-            player.GetComponent<JumpController>().jumptime = 2;
         }
         else
         {
             moveSpeed = savespeed;
             damage=savedamage;
+            player.GetComponent<JumpController>().jumptime = 1;
         }
     }
     
@@ -142,6 +147,6 @@ public class GameDataManager : MonoBehaviour
     public void ChangeMask(int id)
     {
         playerType = (Type)id;
-        PlayerInfoManager.Instance.SkillCoolDown(10,10);
+        PlayerInfoManager.Instance.SkillCoolDown(3,3);
     }
 }

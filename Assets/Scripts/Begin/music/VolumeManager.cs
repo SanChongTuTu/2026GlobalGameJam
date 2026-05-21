@@ -5,7 +5,7 @@ public class VolumeManager : MonoBehaviour
 {
     public static VolumeManager Instance { get; private set; }
 
-    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private AudioSource audioMixer;
 
     [SerializeField] private string masterVolumeParam = "MasterVolume";
     [SerializeField] private string musicVolumeParam = "MusicVolume";
@@ -184,7 +184,7 @@ public class VolumeManager : MonoBehaviour
         }
         else
         {
-            musicVolume = musicBeforeMute;
+            musicVolume = musicBeforeMute==0?10:musicBeforeMute;
         }
 
         ApplyMusicVolume();
@@ -216,7 +216,7 @@ public class VolumeManager : MonoBehaviour
         if (audioMixer != null)
         {
             float dbVolume = volumeToApply > 0.001f ? 20f * Mathf.Log10(volumeToApply) : -80f;
-            audioMixer.SetFloat(masterVolumeParam, dbVolume);
+            //audioMixer.SetFloat(masterVolumeParam, dbVolume);
         }
         else
         {
@@ -228,11 +228,7 @@ public class VolumeManager : MonoBehaviour
     {
         float volumeToApply = isMusicMuted ? 0f : musicVolume;
 
-        if (audioMixer != null)
-        {
-            float dbVolume = volumeToApply > 0.001f ? 20f * Mathf.Log10(volumeToApply) : -80f;
-            audioMixer.SetFloat(musicVolumeParam, dbVolume);
-        }
+        AudioManager.Instance.bgmVolume = volumeToApply;
     }
 
     void ApplySFXVolume()
@@ -242,7 +238,7 @@ public class VolumeManager : MonoBehaviour
         if (audioMixer != null)
         {
             float dbVolume = volumeToApply > 0.001f ? 20f * Mathf.Log10(volumeToApply) : -80f;
-            audioMixer.SetFloat(sfxVolumeParam, dbVolume);
+            //audioMixer.SetFloat(sfxVolumeParam, dbVolume);
         }
     }
 
