@@ -29,7 +29,33 @@ public class BasicControl : MonoBehaviour
 
     bool startironattack = false;
     bool startwindattack = false;
+    // 在类中添加这些变量
+    public bool isStunned = false;
+    private bool canMove = true;
+    private bool canAttack = true;
 
+    // 添加公开方法
+    public void Stun(float duration)
+    {
+        if (isStunned) return;
+
+        StartCoroutine(StunCoroutine(duration));
+    }
+
+    private IEnumerator StunCoroutine(float duration)
+    {
+        isStunned = true;
+        canMove = false;
+        canAttack = false;
+
+        yield return new WaitForSeconds(duration);
+
+        canMove = true;
+        canAttack = true;
+        isStunned = false;
+
+        // anim.SetBool("Stunned", false);
+    }
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
