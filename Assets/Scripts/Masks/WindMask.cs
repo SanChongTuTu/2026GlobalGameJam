@@ -26,7 +26,7 @@ public class WindMask : MonoBehaviour
     [Header("¼ì²â")]
     public LayerMask enemyLayer;
 
-    public float cooldownTimer { get; private set; } = 0;
+    //public float cooldownTimer { get; private set; } = 0;
     private float waittime = -1;
 
     private Transform player;
@@ -49,23 +49,24 @@ public class WindMask : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.L) && cooldownTimer == 0&&PlayerInfoManager.Instance.saveaimtime<=0 && !GameDataManager.Instance.banL)
+        //if (Input.GetKeyDown(KeyCode.L)&& GameDataManager.Instance.cooldownTimer ==0 && PlayerInfoManager.Instance.saveaimtime <= 0 && !GameDataManager.Instance.banL)
+        if (Input.GetKeyDown(KeyCode.L) && PlayerInfoManager.Instance.cooldownTimer == 0 && !GameDataManager.Instance.banL)
         {
-            cooldownTimer = skillCooldown;
-            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown,skillCooldown + 5);
+            PlayerInfoManager.Instance.cooldownTimer = skillCooldown;
+            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown);
             player.GetComponent<BasicControl>().StartTrail();
             waittime = keeptime;
             strength = true;
         }
 
-        if (cooldownTimer > 0)
-        {
-            cooldownTimer -= Time.deltaTime;
-        }
-        if (cooldownTimer < 0)
-        {
-            cooldownTimer = 0;
-        }
+        //if (cooldownTimer > 0)
+        //{
+        //    cooldownTimer -= Time.deltaTime;
+        //}
+        //if (cooldownTimer < 0)
+        //{
+        //    cooldownTimer = 0;
+        //}
 
         if (waittime > 0)
         {

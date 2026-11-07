@@ -133,5 +133,6 @@ public class ChangeMaskManager : MonoBehaviour
         }
         Time.timeScale = 0;
         ok.interactable = false;
+        PlayerInfoManager.Instance.MaskCoolDown(0.5f);
     }
 }

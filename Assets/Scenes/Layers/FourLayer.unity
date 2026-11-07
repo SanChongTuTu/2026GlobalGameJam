@@ -700,6 +700,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airWall: {fileID: 1652979716}
   monster: {fileID: 2113973771}
+  events:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &130696640
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,7 +917,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7405685589075324611, guid: 0fe5bd49701ad9242b827d65fef0986c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 65.5
+      value: 63.99
       objectReference: {fileID: 0}
     - target: {fileID: 7405685589075324611, guid: 0fe5bd49701ad9242b827d65fef0986c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1095,7 +1098,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 19.74
+      value: 18.22
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3132,7 +3135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 19.74
+      value: 18.22
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4527,7 +4530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 19.74
+      value: 18.22
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5838,7 +5841,7 @@ Transform:
   m_GameObject: {fileID: 965772404}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.6, y: 1.9, z: -10}
+  m_LocalPosition: {x: -5.9, y: 1.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5862,6 +5865,9 @@ MonoBehaviour:
   useBound: 1
   minBound: {x: -6, y: 1}
   maxBound: {x: 102, y: 81}
+  normalSize: 5
+  farSize: 12
+  sizeSmooth: 1
 --- !u!114 &987285388 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3109184512510301379, guid: bd62f8605504a3a408e32d898972c1e2, type: 3}
@@ -6087,6 +6093,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airWall: {fileID: 570667354}
   monster: {fileID: 1467371286}
+  events:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1081833973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6101,7 +6110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 19.74
+      value: 18.22
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8390,7 +8399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 19.74
+      value: 18.22
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9901,6 +9910,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airWall: {fileID: 313344325}
   monster: {fileID: 1224479195}
+  events:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1735757320 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6071105533567677005, guid: a699a85c1e6b5dd40a743235a2936f40, type: 3}
@@ -10926,6 +10938,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airWall: {fileID: 913470170}
   monster: {fileID: 540510471}
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 965772408}
+        m_TargetAssemblyTypeName: FollowCamera, Assembly-CSharp
+        m_MethodName: ZoomOutFar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &2046942257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11371,7 +11398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 19.74
+      value: 18.22
       objectReference: {fileID: 0}
     - target: {fileID: 6014959416744774826, guid: 392acb4fe96d2d2429ef2580b8835958, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11434,6 +11461,10 @@ PrefabInstance:
     - target: {fileID: 160455075587552054, guid: 9aa8aa9dfe716694da618df12014359e, type: 3}
       propertyPath: m_Name
       value: Texts
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958490868568409072, guid: 9aa8aa9dfe716694da618df12014359e, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3590850425836058812, guid: 9aa8aa9dfe716694da618df12014359e, type: 3}
       propertyPath: m_LocalPosition.x

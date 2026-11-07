@@ -3761,6 +3761,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airWall: {fileID: 1810180891}
   monster: {fileID: 1778285622}
+  events:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &588008513
 GameObject:
   m_ObjectHideFlags: 0
@@ -7029,6 +7032,9 @@ MonoBehaviour:
   useBound: 1
   minBound: {x: -6, y: 1}
   maxBound: {x: 100, y: 1}
+  normalSize: 5
+  farSize: 8
+  sizeSmooth: 8
 --- !u!1001 &978455309
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13128,22 +13134,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e394e82ee4b4cdb4e9f299a292792652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iceballPrefab: {fileID: 0}
+  fireballPrefab: {fileID: 0}
   launchSpeed: 8
+  simpleattackinterval: 0.5
+  fireball2Prefab: {fileID: 0}
+  bulletCount: 8
+  shootSpeed: 10
+  radius: 0.6
   skillCooldown: 30
-  range: 10
-  duration: 10
-  sampleStep: 0.1
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  damagePerSec: 1.5
-  damageInterval: 0.01
-  laserMaterial: {fileID: 0}
-  lineWidth: 0.1
 --- !u!1001 &2035941785
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13441,7 +13439,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!1 &2078108552
 GameObject:

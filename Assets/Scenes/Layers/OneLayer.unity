@@ -1570,6 +1570,9 @@ MonoBehaviour:
   useBound: 1
   minBound: {x: -6, y: 1}
   maxBound: {x: 100, y: 1}
+  normalSize: 5
+  farSize: 8
+  sizeSmooth: 8
 --- !u!4 &1042352786 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1827400819870339925, guid: d4bcfd81e6c453140ad3e2f61af28c51, type: 3}
@@ -2704,7 +2707,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!114 &2078108554 stripped
 MonoBehaviour:
@@ -3002,7 +3005,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 99

@@ -32,7 +32,7 @@ public class IceMask : MonoBehaviour
     public GameObject model;
     public Material laserMaterial;               // 拖红色材质
     public float lineWidth = 0.1f;            // 激光宽度
-    public float cooldownTimer { get; private set; } = 0;
+    //public float cooldownTimer { get; private set; } = 0;
 
     private LineRenderer line;
     private float damageTimer = 0f;
@@ -58,13 +58,14 @@ public class IceMask : MonoBehaviour
             SimpleAttack();
         }
 
-        if (Input.GetKeyDown(KeyCode.L)&&cooldownTimer==0 && PlayerInfoManager.Instance.saveaimtime <= 0 && !GameDataManager.Instance.banL)
+        //if (Input.GetKeyDown(KeyCode.L)&& GameDataManager.Instance.cooldownTimer ==0 && PlayerInfoManager.Instance.saveaimtime <= 0 && !GameDataManager.Instance.banL)
+        if (Input.GetKeyDown(KeyCode.L) && PlayerInfoManager.Instance.cooldownTimer == 0 &&  !GameDataManager.Instance.banL)
         {
             player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             player.GetComponent<BasicControl>().StopAction(duration);
             model.SetActive(true);
-            cooldownTimer = skillCooldown;
-            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown, skillCooldown + 5);
+            PlayerInfoManager.Instance.cooldownTimer = skillCooldown;
+            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown);
             Resetskill();
             StartCoroutine(CastLaser());
         }
@@ -78,14 +79,14 @@ public class IceMask : MonoBehaviour
             atktime = -1;
         }
 
-        if (cooldownTimer > 0)
-        {
-            cooldownTimer -= Time.deltaTime;
-        }
-        if(cooldownTimer < 0)
-        {
-            cooldownTimer = 0;
-        }
+        //if (cooldownTimer > 0)
+        //{
+        //    cooldownTimer -= Time.deltaTime;
+        //}
+        //if(cooldownTimer < 0)
+        //{
+        //    cooldownTimer = 0;
+        //}
     }
 
     void SimpleAttack()
