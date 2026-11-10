@@ -22,7 +22,7 @@ public class ThunderMask : MonoBehaviour
     public float skillCooldown = 30f;
 
 
-    public float cooldownTimer { get; private set; } = 0;
+    //public float cooldownTimer { get; private set; } = 0;
     private List<GameObject> orbs = new List<GameObject>();
     private Transform player;//»·ÈÆÖÐÐÄ
     private float atktime = -1;
@@ -43,10 +43,11 @@ public class ThunderMask : MonoBehaviour
             SimpleAttack();
         }
 
-        if (Input.GetKeyDown(KeyCode.L) && cooldownTimer == 0 && PlayerInfoManager.Instance.saveaimtime <= 0 && !GameDataManager.Instance.banL)
+        //if (Input.GetKeyDown(KeyCode.L)&& GameDataManager.Instance.cooldownTimer ==0 && PlayerInfoManager.Instance.saveaimtime <= 0 && !GameDataManager.Instance.banL)
+        if (Input.GetKeyDown(KeyCode.L) && PlayerInfoManager.Instance.cooldownTimer == 0 && !GameDataManager.Instance.banL)
         {
-            cooldownTimer = skillCooldown;
-            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown, skillCooldown + 5);
+            PlayerInfoManager.Instance.cooldownTimer = skillCooldown;
+            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown);
             Shoot();
         }
 
@@ -60,14 +61,14 @@ public class ThunderMask : MonoBehaviour
             atktime = -1;
         }
 
-        if (cooldownTimer > 0)
-        {
-            cooldownTimer -= Time.deltaTime;
-        }
-        if (cooldownTimer < 0)
-        {
-            cooldownTimer = 0;
-        }
+        //if (cooldownTimer > 0)
+        //{
+        //    cooldownTimer -= Time.deltaTime;
+        //}
+        //if (cooldownTimer < 0)
+        //{
+        //    cooldownTimer = 0;
+        //}
     }
 
     void SimpleAttack()

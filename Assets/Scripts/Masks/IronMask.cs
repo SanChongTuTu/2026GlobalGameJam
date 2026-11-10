@@ -21,7 +21,7 @@ public class IronMask : MonoBehaviour
     [Header("¼ì²â")]
     public LayerMask enemyLayer;
 
-    public float cooldownTimer { get; private set; } = 0;
+    //public float cooldownTimer { get; private set; } = 0;
 
     private Transform player;
 
@@ -43,24 +43,25 @@ public class IronMask : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.L)&&cooldownTimer==0 && PlayerInfoManager.Instance.saveaimtime <= 0 && !GameDataManager.Instance.banL)
+        //if (Input.GetKeyDown(KeyCode.L)&& GameDataManager.Instance.cooldownTimer ==0 && PlayerInfoManager.Instance.saveaimtime <= 0 && !GameDataManager.Instance.banL)
+        if (Input.GetKeyDown(KeyCode.L) && PlayerInfoManager.Instance.cooldownTimer == 0 && !GameDataManager.Instance.banL)
         {
             player.GetComponent<BasicControl>().attacking = true;
             player.GetComponent<Animator>().SetTrigger("HitAttack");
-            cooldownTimer = skillCooldown;
-            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown, skillCooldown+5);
+            PlayerInfoManager.Instance.cooldownTimer = skillCooldown;
+            PlayerInfoManager.Instance.SkillCoolDown(skillCooldown);
             StartCoroutine(DashAttack());
 
         }
 
-        if (cooldownTimer > 0)
-        {
-            cooldownTimer -= Time.deltaTime;
-        }
-        if(cooldownTimer < 0)
-        {
-            cooldownTimer = 0;
-        }
+        //if (cooldownTimer > 0)
+        //{
+        //    cooldownTimer -= Time.deltaTime;
+        //}
+        //if(cooldownTimer < 0)
+        //{
+        //    cooldownTimer = 0;
+        //}
     }
 
     void SimpleAttack()

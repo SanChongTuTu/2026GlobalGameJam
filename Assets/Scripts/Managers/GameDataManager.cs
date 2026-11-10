@@ -54,7 +54,6 @@ public class GameDataManager : MonoBehaviour
     public bool banE = false;
     public bool banL = false;
     public bool banJ = false;
-
     float savespeed;//��¼��ǰ�ٶ�
     float savedamage;
     float saveattackcooldown;
@@ -94,7 +93,7 @@ public class GameDataManager : MonoBehaviour
             currentSceneName = activeScene;
             Debug.Log($"Scene changed to: {currentSceneName}");
         }
-        
+
         if (playerType != Type.ice && player.GetComponent<LineRenderer>() != null)
         {
             player.GetComponent<LineRenderer>().positionCount = 0;
@@ -147,6 +146,6 @@ public class GameDataManager : MonoBehaviour
     public void ChangeMask(int id)
     {
         playerType = (Type)id;
-        PlayerInfoManager.Instance.SkillCoolDown(3,3);
+        //PlayerInfoManager.Instance.SkillCoolDown(3,3);
     }
 }

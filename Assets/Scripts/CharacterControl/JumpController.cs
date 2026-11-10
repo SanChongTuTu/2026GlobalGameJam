@@ -32,17 +32,21 @@ public class JumpController : MonoBehaviour
         jumpHeight = GameDataManager.Instance.jumpForce;
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         // ¬‰µÿºÏ≤‚
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
-        
+
         // ¬‰µÿ∏¥Œª
         if (isGrounded)
         {
             jumpCount = 0;
             GetComponent<Animator>().SetBool("Jump", false);
         }
+    }
+
+    void Update()
+    {
 
         // Ã¯‘æ ‰»Î
         if (Input.GetKeyDown(jumpKey))

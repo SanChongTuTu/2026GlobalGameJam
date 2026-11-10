@@ -811,6 +811,9 @@ MonoBehaviour:
   useBound: 1
   minBound: {x: -80, y: 5.1}
   maxBound: {x: 44, y: 34}
+  normalSize: 5
+  farSize: 8
+  sizeSmooth: 8
 --- !u!1001 &221307712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1146,7 +1149,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 99
@@ -1162,6 +1165,10 @@ PrefabInstance:
     - target: {fileID: 160455075587552054, guid: 9aa8aa9dfe716694da618df12014359e, type: 3}
       propertyPath: m_Name
       value: Texts
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958490868568409072, guid: 9aa8aa9dfe716694da618df12014359e, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3590850425836058812, guid: 9aa8aa9dfe716694da618df12014359e, type: 3}
       propertyPath: m_LocalPosition.x

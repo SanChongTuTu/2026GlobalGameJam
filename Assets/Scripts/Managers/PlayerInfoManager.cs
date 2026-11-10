@@ -43,8 +43,8 @@ public class PlayerInfoManager : MonoBehaviour
     public List<Sprite> skillicons;
     public List<Color> tagcolors;
 
-
-    public float saveaimtime;
+    public float cooldownTimer = 0;
+    //public float saveaimtime;
     public float savemasktime;
 
     private float maxsizex;
@@ -70,6 +70,14 @@ public class PlayerInfoManager : MonoBehaviour
 
     void Update()
     {
+        if (cooldownTimer > 0)
+        {
+            cooldownTimer -= Time.deltaTime;
+        }
+        if (cooldownTimer < 0)
+        {
+            cooldownTimer = 0;
+        }
         float sizex=GameDataManager.Instance.health / 100f * maxsizex;
         if(sizex != bloodbarquick1.rectTransform.sizeDelta.x)
         {
@@ -77,7 +85,6 @@ public class PlayerInfoManager : MonoBehaviour
         }
         if ((int)GameDataManager.Instance.playerType - 1>=0)
         SkillIcon.sprite=skillicons[(int)GameDataManager.Instance.playerType-1];
-
         switch (GameDataManager.Instance.playerType)
         {
             case GameDataManager.Type.none:
@@ -156,17 +163,21 @@ public class PlayerInfoManager : MonoBehaviour
         }
     }
 
-    public void SkillCoolDown(float time, float time2)
+    public void MaskCoolDown(float time)
+    {
+        ChangeMaskCoolImage.gameObject.SetActive(true);
+        savemasktime = time;
+        ChangeMaskCoolImage.fillAmount = 1;
+        StartCoroutine(CooldownMask(time));
+
+    }
+
+    public void SkillCoolDown(float time)
     {
         SkillCoolDownImage.gameObject.SetActive(true);
-        saveaimtime = time;
+        cooldownTimer = time;
         SkillCoolDownImage.fillAmount = 1;
         StartCoroutine(Cooldown(time));
-        ChangeMaskCoolImage.gameObject.SetActive(true);
-        savemasktime = time2;
-        ChangeMaskCoolImage.fillAmount = 1;
-        StartCoroutine(CooldownMask(time2));
-
     }
 
     IEnumerator CooldownMask(float aimtime)
@@ -184,14 +195,14 @@ public class PlayerInfoManager : MonoBehaviour
 
     IEnumerator Cooldown(float aimtime)
     {
-        while (saveaimtime > 0)
+        while (cooldownTimer > 0)
         {
-            saveaimtime-=Time.deltaTime;
-            SkillCoolDownImage.fillAmount = Mathf.Lerp(0, 1, saveaimtime / aimtime);
+            cooldownTimer -=Time.deltaTime;
+            SkillCoolDownImage.fillAmount = Mathf.Lerp(0, 1, cooldownTimer / aimtime);
             yield return null;
         }
         SkillCoolDownImage.gameObject.SetActive(false);
-        saveaimtime = 0;
+        cooldownTimer = 0;
         SkillCoolDownImage.fillAmount = 0;
     }
 
